@@ -5,21 +5,33 @@
 #include <stdint.h>
 #include <string.h>
 
-#define SIZE_LINE 50
+#define SIZE_LINE 80
 
-int32_t indexOf(char * line, char * search){
+// Renvoie la valeur numérique de la ligne de config.ini
+int16_t find_value(char * line_config){
 
-  char * result;
+  int16_t value;
+  char * trash = malloc(sizeof(char) * 20);
+  sscanf(line_config,"%s = %hd",trash,&value);
 
-  if((result = strstr(line,search)) == NULL){
+  free(trash);
+  return value;
 
-    return -1;
+}
 
-  }else{
+// Renvoie le répertoire de la ligne de config.ini
+char * find_directory(char * line_config){
 
-    return result - line;
+  char * temp = malloc(sizeof(char) * 256);
+  char * directory = malloc(sizeof(char) * 256);
+  char * trash = malloc(sizeof(char) * 20);
 
-  }
+  sscanf(line_config,"%s = '%s'",trash,directory);
+  //on supprime le ' en fin de chaine
+  directory[strlen(directory) - 1] = '\0';
+
+  free(trash);
+  return directory;
 
 }
 
@@ -35,25 +47,59 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
 
   while(fgets(buffer, SIZE_LINE, config) != NULL){
 
-    if((index = indexOf(buffer,"Easy level")) != NULL){
+    if((strstr(buffer, "Multiplayer mode")) != NULL){
 
-      
+      for(int8_t i = 0; i < 3; i++){
+
+        fgets(buffer, SIZE_LINE, config);
+        *data[i] = find_value(buffer);
+
+      }
+
+    }else if((strstr(buffer, "Solo mode")) != NULL){
+
+      for(int8_t i = 3; i < 6; i++){
+
+        fgets(buffer, SIZE_LINE, config);
+        *data[i] = find_value(buffer);
+
+      }
+
+    }else if((strstr(buffer, "[Music]")) != NULL){
+
+      fgets(buffer, SIZE_LINE, config);
+      strcpy(songs_directory,find_directory(buffer));
+      fgets(buffer, SIZE_LINE, config);
+      *data[6] = find_value(buffer);
+
+    }else if((strstr(buffer, "[Points]")) != NULL){
+
+      fgets(buffer, SIZE_LINE, config);
+      *data[7] = find_value(buffer);
+      fgets(buffer, SIZE_LINE, config);
+      *data[8] = find_value(buffer);
+
+    }else if((strstr(buffer, "[Fonts]")) != NULL){
+
+      fgets(buffer, SIZE_LINE, config);
+      strcpy(fonts_directory,find_directory(buffer));
 
     }
 
   }
 
+  fclose(config);
 
 }
 
 int main(int argc, char const *argv[]) {
 
-  int16_t easy_level_solo_mode;
   int16_t easy_level_multi_mode;
-  int16_t medium_level_solo_mode;
   int16_t medium_level_multi_mode;
-  int16_t hard_level_solo_mode;
   int16_t hard_level_multi_mode;
+  int16_t easy_level_solo_mode;
+  int16_t medium_level_solo_mode;
+  int16_t hard_level_solo_mode;
   int16_t volume;
   int16_t artist_score;
   int16_t title_score;
@@ -76,8 +122,18 @@ int main(int argc, char const *argv[]) {
   data[7] = &artist_score;
   data[8] = &title_score;
 
-  if((init(songs_directory, fonts_directory, data) != 0)
+  if((init(songs_directory, fonts_directory, data)) != 0){
+
     printf("Le fichier de configuration est introuvable, le programme ne peut donc d%cmarrer",130);
+    exit(0);
+
+  }
+
+  printf("Multijoueur :\nEasy level : %hd\nMedium level : %hd\nHard level : %hd\n\n",easy_level_multi_mode,medium_level_multi_mode,hard_level_multi_mode);
+  printf("Solo :\nEasy level : %hd\nMedium level : %hd\nHard level : %hd\n\n",easy_level_solo_mode,medium_level_solo_mode,hard_level_solo_mode);
+  printf("Music\nDirectory : %s\nVolume : %hd\n\n",songs_directory,volume);
+  printf("Points\nArtist : %hd\nTitle : %hd\n\n",artist_score,title_score);
+  printf("Fonts\nDirectory : %s\n\n",fonts_directory);
 
   free(songs_directory);
   free(fonts_directory);
