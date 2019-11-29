@@ -92,6 +92,60 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
 
 }
 
+/*
+Copie d'un fichier
+sourcePath: chemin du fichier
+destPath : seulement le nom du repertoire de destination
+Retourne 0 si la copie s'est bien effectue
+Retourne 1 si le fichier est introuvable
+*/
+int8_t copyFile(const char * sourcePath, const char * destPath){
+
+  uint16_t  ARRAY_LENGHT = 1000;
+  char command[1000];
+
+  //Suppression du chemin du fichier source
+  char fileName[ARRAY_LENGHT];
+  const char backSlash = '\\';
+  char * res = NULL;
+  res = strrchr(sourcePath,backSlash);
+
+  if (res != NULL) {
+    strcpy(fileName,res+1);
+  }else{
+    strcpy(fileName,sourcePath);
+  }
+
+  //Verification de la presence du fichier source
+  FILE * sourceFile = NULL;
+  sourceFile = fopen(sourcePath,"rb");
+  if (sourceFile == NULL) {
+    //printf("Le fichier est introuvable\n");
+    return 1;
+  }
+
+  //Creation du dossier si inexistant
+  char path[ARRAY_LENGHT];
+  sprintf(path,"%s\\%s",destPath,fileName);
+
+  FILE * destFile = NULL;
+  destFile = fopen(path,"wb");
+  if (destFile == NULL) {
+    // printf("Le dossier 'musics' n'existe pas\n");
+    sprintf(command,"mkdir %s",destPath);
+    system(command);
+  }
+
+  // copy sous windows et cp sous Linux
+  sprintf(command,"copy %s %s > nul 2>&1",sourcePath,path);
+  system(command);
+
+  fclose(destFile);
+  fclose(sourceFile);
+
+  return 0;
+}
+
 int main(int argc, char const *argv[]) {
 
   int16_t easy_level_multi_mode;
@@ -142,6 +196,9 @@ int main(int argc, char const *argv[]) {
     free(data[i]);
 
   free(data);
+
+  //test copy 
+  //copyFile("..\\music\\Lil_Nas_X.mp3","..\\musics");
 
   system("pause");
   return 0;
