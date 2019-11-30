@@ -1,107 +1,22 @@
-// #include "../lib/fmod/fmod.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <stdint.h>
 #include <string.h>
 
-#define SIZE_LINE 80
-
-// Renvoie la valeur numérique de la ligne de config.ini
-int16_t find_value(char * line_config){
-
-  int16_t value;
-  char * trash = malloc(sizeof(char) * 20);
-  sscanf(line_config,"%s = %hd",trash,&value);
-
-  free(trash);
-  return value;
-
-}
-
-// Renvoie le répertoire de la ligne de config.ini
-char * find_directory(char * line_config){
-
-  char * temp = malloc(sizeof(char) * 256);
-  char * directory = malloc(sizeof(char) * 256);
-  char * trash = malloc(sizeof(char) * 20);
-
-  sscanf(line_config,"%s = '%s'",trash,directory);
-  //on supprime le ' en fin de chaine
-  directory[strlen(directory) - 1] = '\0';
-
-  free(trash);
-  return directory;
-
-}
-
-int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
-
-  FILE * config;
-  config = fopen("config.ini", "r");
-  if(config == NULL) return -1;
-
-  int32_t index;
-  char * buffer;
-  buffer = malloc(SIZE_LINE * sizeof(char));
-
-  while(fgets(buffer, SIZE_LINE, config) != NULL){
-
-    if((strstr(buffer, "Multiplayer mode")) != NULL){
-
-      for(int8_t i = 0; i < 3; i++){
-
-        fgets(buffer, SIZE_LINE, config);
-        *data[i] = find_value(buffer);
-
-      }
-
-    }else if((strstr(buffer, "Solo mode")) != NULL){
-
-      for(int8_t i = 3; i < 6; i++){
-
-        fgets(buffer, SIZE_LINE, config);
-        *data[i] = find_value(buffer);
-
-      }
-
-    }else if((strstr(buffer, "[Music]")) != NULL){
-
-      fgets(buffer, SIZE_LINE, config);
-      strcpy(songs_directory,find_directory(buffer));
-      fgets(buffer, SIZE_LINE, config);
-      *data[6] = find_value(buffer);
-
-    }else if((strstr(buffer, "[Points]")) != NULL){
-
-      fgets(buffer, SIZE_LINE, config);
-      *data[7] = find_value(buffer);
-      fgets(buffer, SIZE_LINE, config);
-      *data[8] = find_value(buffer);
-
-    }else if((strstr(buffer, "[Fonts]")) != NULL){
-
-      fgets(buffer, SIZE_LINE, config);
-      strcpy(fonts_directory,find_directory(buffer));
-
-    }
-
-  }
-
-  fclose(config);
-
-}
+// #include "../lib/fmod/fmod.h"
+#include "includes/init.h"
 
 /*
 Copie d'un fichier
 sourcePath: chemin du fichier
 destPath : seulement le nom du repertoire de destination
-Retourne 0 si la copie s'est bien effectue
+Retourne 0 si la copie s'est bien effectuée
 Retourne 1 si le fichier est introuvable
 */
 int8_t copyFile(const char * sourcePath, const char * destPath){
 
-  uint16_t  ARRAY_LENGHT = 1000;
+  uint16_t ARRAY_LENGHT = 1000;
   char command[1000];
 
   //Suppression du chemin du fichier source
@@ -197,7 +112,7 @@ int main(int argc, char const *argv[]) {
 
   free(data);
 
-  //test copy 
+  //test copy
   //copyFile("..\\music\\Lil_Nas_X.mp3","..\\musics");
 
   system("pause");
