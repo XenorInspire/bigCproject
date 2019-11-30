@@ -2,7 +2,10 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+
 #include "../includes/init.h"
+#include "../includes/verify.h"
+
 #define SIZE_LINE 80
 
 // Renvoie la valeur numérique de la ligne de config.ini
@@ -20,12 +23,11 @@ int16_t find_value(char * line_config){
 // Renvoie le répertoire de la ligne de config.ini
 char * find_directory(char * line_config){
 
-  char * temp = malloc(sizeof(char) * 256);
   char * directory = malloc(sizeof(char) * 256);
   char * trash = malloc(sizeof(char) * 20);
 
   sscanf(line_config,"%s = '%s'",trash,directory);
-  //on supprime le ' en fin de chaine
+  //on écrase le ' en fin de chaine
   directory[strlen(directory) - 1] = '\0';
 
   free(trash);
@@ -86,6 +88,10 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
 
   }
 
+  if((verify_values(fonts_directory,songs_directory,data)) != 0)
+    return -1;
+
   fclose(config);
+  return 0;
 
 }

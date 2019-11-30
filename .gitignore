@@ -42,5 +42,9 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# More rules
 test*
 source/blindtest.exe
+source/config_old.ini
+temp/

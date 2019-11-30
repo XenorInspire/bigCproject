@@ -6,6 +6,8 @@
 
 // #include "../lib/fmod/fmod.h"
 #include "includes/init.h"
+#include "includes/generate.h"
+#include "includes/verify.h"
 
 /*
 Copie d'un fichier
@@ -63,6 +65,8 @@ int8_t copyFile(const char * sourcePath, const char * destPath){
 
 int main(int argc, char const *argv[]) {
 
+  int8_t choice = 1;
+  int8_t choice_config = 1;
   int16_t easy_level_multi_mode;
   int16_t medium_level_multi_mode;
   int16_t hard_level_multi_mode;
@@ -91,18 +95,32 @@ int main(int argc, char const *argv[]) {
   data[7] = &artist_score;
   data[8] = &title_score;
 
-  if((init(songs_directory, fonts_directory, data)) != 0){
+  while((init(songs_directory, fonts_directory, data)) != 0){
 
-    printf("Le fichier de configuration est introuvable, le programme ne peut donc d%cmarrer",130);
-    exit(0);
+    printf("Le fichier de configuration est introuvable ou les valeurs renseign%ces ne sont pas coh%crentes, le programme ne peut donc d%cmarrer\n",130,130,130);
+    printf("Pour plus d'informations, consultez le fichier readme.md \n");
+    printf("Voulez-vous restaurer le fichier de configuration par d%cfaut ?\n",130);
+    printf("Tapez 'o' pour oui \n");
+    fflush(stdin);
+    scanf("%c",&choice_config);
+
+    if(choice_config != 'o'){
+
+      printf("Le programme va donc s'arr%cter \n",136);
+      Sleep(2000);
+      exit(0);
+
+    }
+
+    if(generate_config_ini() != 0){
+
+      printf("Impossible de recr%cer le fichier config.ini, le programme va donc s'arr%cter \n",130,136);
+      Sleep(2000);
+      exit(0);
+
+    }
 
   }
-
-  printf("Multijoueur :\nEasy level : %hd\nMedium level : %hd\nHard level : %hd\n\n",easy_level_multi_mode,medium_level_multi_mode,hard_level_multi_mode);
-  printf("Solo :\nEasy level : %hd\nMedium level : %hd\nHard level : %hd\n\n",easy_level_solo_mode,medium_level_solo_mode,hard_level_solo_mode);
-  printf("Music\nDirectory : %s\nVolume : %hd\n\n",songs_directory,volume);
-  printf("Points\nArtist : %hd\nTitle : %hd\n\n",artist_score,title_score);
-  printf("Fonts\nDirectory : %s\n\n",fonts_directory);
 
   free(songs_directory);
   free(fonts_directory);
@@ -113,7 +131,8 @@ int main(int argc, char const *argv[]) {
   free(data);
 
   //test copy
-  //copyFile("..\\music\\Lil_Nas_X.mp3","..\\musics");
+  // if((copyFile("..\\music\\Lil_Nas_X.mp3","..\\musics")) !=0)
+  //   printf("Erreur de copie \n");
 
   system("pause");
   return 0;
