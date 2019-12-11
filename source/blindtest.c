@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
+#include <unistd.h>
 #include <stdint.h>
 #include <string.h>
 
@@ -57,7 +57,7 @@ int main(int argc, char const *argv[]) {
     if(choice_config != 'o'){
 
       printf("Le programme va donc s'arr%cter \n",136);
-      Sleep(2000);
+      sleep(2000);
       exit(0);
 
     }
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[]) {
     if(generate_config_ini() != 0){
 
       printf("Impossible de recr%cer le fichier config.ini, le programme va donc s'arr%cter \n",130,136);
-      Sleep(2000);
+      sleep(2000);
       exit(0);
 
     }
