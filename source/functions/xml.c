@@ -5,7 +5,7 @@
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from the
  * use of this software.
- * 
+ *
  * Permission is granted to anyone to use this software for any purpose,
  * including commercial applications, and to alter it and redistribute it
  * freely, subject to the following restrictions:
@@ -14,7 +14,7 @@
  *     claim that you wrote the original software. If you use this software in a
  *     product, an acknowledgment in the product documentation would be
  *     appreciated but is not required.
- * 
+ *
  *  2. Altered source versions must be plainly marked as such, and must not be
  *     misrepresented as being the original software.
  *
@@ -30,13 +30,13 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "xml.h"
+#include "../includes/xml.h"
 
 
 
 
 
-/* 
+/*
  * public domain strtok_r() by Charlie Gordon
  *
  *   from comp.lang.c  9/14/2007
@@ -261,7 +261,7 @@ static void xml_attribute_free(struct xml_attribute* attribute) {
 
 /**
  * [PRIVATE]
- * 
+ *
  * Frees the resources allocated by the node
  */
 static void xml_node_free(struct xml_node* node) {
@@ -411,7 +411,7 @@ static void xml_parser_consume(struct xml_parser* parser, size_t n) {
 
 /**
  * [PRIVATE]
- * 
+ *
  * Skips to the next non-whitespace character
  */
 static void xml_skip_whitespace(struct xml_parser* parser) {
@@ -674,7 +674,7 @@ static struct xml_string* xml_parse_content(struct xml_parser* parser) {
 
 /**
  * [PRIVATE]
- * 
+ *
  * Parses an XML fragment node
  *
  * ---( Example without children )---
@@ -1053,8 +1053,8 @@ struct xml_node* xml_easy_child(struct xml_node* node, uint8_t const* child_name
 			va_end(arguments);
 			return 0;
 		}
-		current = next;		
-		
+		current = next;
+
 		/* Find name of next child
 		 */
 		child_name = va_arg(arguments, uint8_t const*);
@@ -1121,4 +1121,3 @@ void xml_string_copy(struct xml_string* string, uint8_t* buffer, size_t length) 
 
 	memcpy(buffer, string->buffer, length);
 }
-

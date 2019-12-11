@@ -49,10 +49,10 @@ int8_t verify_values(char * fonts_directory,char * songs_directory,int16_t ** da
     return -1;
 
 
-  if(is_folder_exists(songs_directory) != 0)
+  if(does_folder_exist(songs_directory) != 0)
     return -1;
 
-  if(is_folder_exists(fonts_directory) != 0)
+  if(does_folder_exist(fonts_directory) != 0)
     return -1;
 
 
