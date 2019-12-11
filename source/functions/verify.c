@@ -9,8 +9,9 @@
 #define MAX_PTS_TITLE 1000
 
 // Vérifie si un fichier existe à partir de son chemin d'accès
-int8_t is_file_exists(const char * path, FILE * file_pointer){
+int8_t does_file_exist(const char * path){
 
+  FILE * file_pointer = NULL;
   file_pointer = fopen(path, "r");
 
   if (file_pointer == NULL)
@@ -19,11 +20,10 @@ int8_t is_file_exists(const char * path, FILE * file_pointer){
   fclose(file_pointer);
 
   return 0;
-
 }
 
 // Vérifie si un dossier existe à partir de son chemin d'accès
-int8_t is_folder_exists(const char * path){
+int8_t does_folder_exist(const char * path){
 
     // Check for file existence
     if (access(path, F_OK) == -1)
