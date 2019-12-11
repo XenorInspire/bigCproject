@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "../includes/verify.h"
-#include "../include/xml.h"
+#include "../includes/xml.h"
 
 //Copie d'un fichier vers le nom du dossier
 int8_t copy_file(const char * source_path, const char * dest_path){
