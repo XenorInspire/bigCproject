@@ -4,6 +4,10 @@
 int main(int argc, char const *argv[]) {
 
   char choice = 'o';
+  char choice_launch;
+
+  printf("Avec lancement automatique du programme ? (o/n)\n");
+  scanf("%c",&choice_launch);
 
   while(choice == 'o'){
 
@@ -23,7 +27,11 @@ int main(int argc, char const *argv[]) {
     system("mv blindtest.o ../source/blindtest.o");
     system("mv blindtest.exe ../source/blindtest.exe");
 
-    printf("Recompiler ? o/n \n");
+    if(choice_launch == 'o') {
+      system("start ../source/blindtest.exe");
+    }
+
+    printf("Recompiler ? (o/n) \n");
     fflush(stdin);
     scanf("%c",&choice);
 
