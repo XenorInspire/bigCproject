@@ -4,6 +4,8 @@
 #include <io.h>
 #include <unistd.h>
 
+#include "../includes/struct.h"
+
 #define MAX_VOLUME 30
 #define MAX_MUSICS 100
 #define MAX_PTS_ARTIST 1000
@@ -34,19 +36,34 @@ int8_t does_folder_exist(const char * path){
 }
 
 // Vérifie la conformité des valeurs du fichier config.ini
-int8_t verify_values(char * fonts_directory,char * songs_directory,int16_t ** data){
+int8_t verify_values(char * fonts_directory,char * songs_directory,CONFIG * config_ini){
 
-  for(int8_t i = 0; i <= 5; i++)
-    if(*data[i] < 1 || *data[i] > MAX_MUSICS)
-      return -1;
-
-  if(*data[6] < 0 || *data[6] > MAX_VOLUME)
+  // for(int8_t i = 0; i <= 5; i++)
+  if(config_ini->easy_level_solo_mode < 1 || config_ini->easy_level_solo_mode > MAX_MUSICS)
     return -1;
 
-  if(*data[7] < 0 || *data[7] > MAX_PTS_ARTIST)
+  if(config_ini->medium_level_solo_mode < 1 || config_ini->medium_level_solo_mode > MAX_MUSICS)
     return -1;
 
-  if(*data[8] < 0 || *data[8] > MAX_PTS_TITLE)
+  if(config_ini->hard_level_solo_mode < 1 || config_ini->hard_level_solo_mode > MAX_MUSICS)
+    return -1;
+
+  if(config_ini->easy_level_multi_mode < 1 || config_ini->easy_level_multi_mode > MAX_MUSICS)
+    return -1;
+
+  if(config_ini->medium_level_multi_mode < 1 || config_ini->medium_level_multi_mode > MAX_MUSICS)
+    return -1;
+
+  if(config_ini->hard_level_multi_mode < 1 || config_ini->hard_level_multi_mode > MAX_MUSICS)
+    return -1;
+
+  if(config_ini->volume < 0 || config_ini->volume > MAX_VOLUME)
+    return -1;
+
+  if(config_ini->artist_score < 0 || config_ini->artist_score > MAX_PTS_ARTIST)
+    return -1;
+
+  if(config_ini->title_score < 0 || config_ini->title_score > MAX_PTS_TITLE)
     return -1;
 
 
