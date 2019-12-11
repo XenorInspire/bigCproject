@@ -2,7 +2,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+
 #include "../includes/generate.h"
+#include "../includes/verify.h"
 
 #define NB_CONFIG_LINES 16
 #define SIZE_CONFIG_LINES 50
@@ -15,8 +17,13 @@ int8_t generate_config_ini(){
 
   char ** content = malloc(sizeof(char *) * NB_CONFIG_LINES); //16 étant le nombre de lignes du fichier config.ini
 
-  for(int8_t i = 0; i < NB_CONFIG_LINES; i++)
+  for(int8_t i = 0; i < NB_CONFIG_LINES; i++){
+
     content[i] = malloc(sizeof(char) * SIZE_CONFIG_LINES);
+    check_memory(content[i]);
+
+  }
+
 
   strcpy(content[0],"[Number of Questions : Multiplayer mode]");
   strcpy(content[1],"Easy_level = 10");

@@ -13,6 +13,7 @@ int16_t find_value(char * line_config){
 
   int16_t value;
   char * trash = malloc(sizeof(char) * 20);
+  check_memory(trash);
   sscanf(line_config,"%s = %hd",trash,&value);
 
   free(trash);
@@ -25,6 +26,9 @@ char * find_directory(char * line_config){
 
   char * directory = malloc(sizeof(char) * 256);
   char * trash = malloc(sizeof(char) * 20);
+
+  check_memory(trash);
+  check_memory(directory);
 
   sscanf(line_config,"%s = '%s'",trash,directory);
   //on écrase le ' en fin de chaine
@@ -44,6 +48,7 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
   int32_t index;
   char * buffer;
   buffer = malloc(SIZE_LINE * sizeof(char));
+  check_memory(buffer);
 
   while(fgets(buffer, SIZE_LINE, config) != NULL){
 

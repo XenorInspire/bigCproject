@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <io.h>
+#include <unistd.h>
 
 #define MAX_VOLUME 30
 #define MAX_MUSICS 100
@@ -55,7 +56,18 @@ int8_t verify_values(char * fonts_directory,char * songs_directory,int16_t ** da
   if(does_folder_exist(fonts_directory) != 0)
     return -1;
 
-
   return 0;
+
+}
+
+void check_memory(void * ptr){
+
+  if(ptr == NULL){
+
+    printf("Vous ne disposez pas d'assez de m%cmoire disponible, le programme va donc s'%cteindre \n",130,130);
+    sleep(3000);
+    exit(0);
+
+  }
 
 }

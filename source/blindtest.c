@@ -30,6 +30,9 @@ int main(int argc, char const *argv[]) {
   char * fonts_directory;
   fonts_directory = malloc(256 * sizeof(char));
 
+  check_memory(songs_directory);
+  check_memory(fonts_directory);
+
   int16_t ** data;
   data = malloc(9 * sizeof(int16_t*));
   data[0] = &easy_level_solo_mode;
