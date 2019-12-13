@@ -1,4 +1,4 @@
-#include "struct.h"
+// #include "struct.h"
 
 // Fonctions d'initialisation du programme
 

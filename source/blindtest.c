@@ -5,11 +5,11 @@
 #include <string.h>
 
 // #include "../lib/fmod/fmod.h"
+#include "includes/struct.h"
 #include "includes/init.h"
 #include "includes/generate.h"
 #include "includes/verify.h"
 #include "includes/manage_song.h"
-#include "includes/struct.h"
 
 int main(int argc, char const *argv[]) {
 

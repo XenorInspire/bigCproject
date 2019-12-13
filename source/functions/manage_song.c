@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../includes/struct.h"
 #include "../includes/verify.h"
 
 //Copie d'un fichier vers le nom du dossier

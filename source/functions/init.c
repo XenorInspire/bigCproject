@@ -3,9 +3,9 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "../includes/struct.h"
 #include "../includes/init.h"
 #include "../includes/verify.h"
-#include "../includes/struct.h"
 
 #define SIZE_LINE 80
 

@@ -1,4 +1,4 @@
-#include "struct.h"
+// #include "struct.h"
 
 // Fonctions de vérification qui permettent le bon fonctionnement du programme
 

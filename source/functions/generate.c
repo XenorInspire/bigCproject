@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../includes/struct.h"
 #include "../includes/generate.h"
 #include "../includes/verify.h"
 
@@ -16,6 +17,8 @@ int8_t generate_config_ini(){
     return -1;
 
   char ** content = malloc(sizeof(char *) * NB_CONFIG_LINES); //16 étant le nombre de lignes du fichier config.ini
+  if(content == NULL)
+    return -1;
 
   for(int8_t i = 0; i < NB_CONFIG_LINES; i++){
 
