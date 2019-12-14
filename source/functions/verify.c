@@ -38,7 +38,6 @@ int8_t does_folder_exist(const char * path){
 // Vérifie la conformité des valeurs du fichier config.ini
 int8_t verify_values(char * fonts_directory,char * songs_directory,CONFIG * config_ini){
 
-  // for(int8_t i = 0; i <= 5; i++)
   if(config_ini->easy_level_solo_mode < 1 || config_ini->easy_level_solo_mode > MAX_MUSICS)
     return -1;
 
