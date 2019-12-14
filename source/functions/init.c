@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "../includes/struct.h"
 #include "../includes/init.h"
 #include "../includes/verify.h"
 
@@ -39,7 +40,7 @@ char * find_directory(char * line_config){
 
 }
 
-int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
+int8_t init(char * fonts_directory, char * songs_directory, CONFIG * config_ini){
 
   FILE * config;
   config = fopen("config.ini", "r");
@@ -54,35 +55,38 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
 
     if((strstr(buffer, "Multiplayer mode")) != NULL){
 
-      for(int8_t i = 0; i < 3; i++){
-
-        fgets(buffer, SIZE_LINE, config);
-        *data[i] = find_value(buffer);
-
-      }
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->easy_level_multi_mode = find_value(buffer);
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->medium_level_multi_mode = find_value(buffer);
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->hard_level_multi_mode = find_value(buffer);
 
     }else if((strstr(buffer, "Solo mode")) != NULL){
 
-      for(int8_t i = 3; i < 6; i++){
-
-        fgets(buffer, SIZE_LINE, config);
-        *data[i] = find_value(buffer);
-
-      }
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->easy_level_solo_mode = find_value(buffer);
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->medium_level_solo_mode = find_value(buffer);
+      fgets(buffer, SIZE_LINE, config);
+      config_ini->hard_level_solo_mode = find_value(buffer);
 
     }else if((strstr(buffer, "[Music]")) != NULL){
 
       fgets(buffer, SIZE_LINE, config);
       strcpy(songs_directory,find_directory(buffer));
+
       fgets(buffer, SIZE_LINE, config);
-      *data[6] = find_value(buffer);
+      config_ini->volume = find_value(buffer);
+
 
     }else if((strstr(buffer, "[Points]")) != NULL){
 
       fgets(buffer, SIZE_LINE, config);
-      *data[7] = find_value(buffer);
+      config_ini->artist_score = find_value(buffer);
+
       fgets(buffer, SIZE_LINE, config);
-      *data[8] = find_value(buffer);
+      config_ini->title_score = find_value(buffer);
 
     }else if((strstr(buffer, "[Fonts]")) != NULL){
 
@@ -93,7 +97,7 @@ int8_t init(char * fonts_directory, char * songs_directory, int16_t ** data){
 
   }
 
-  if((verify_values(fonts_directory,songs_directory,data)) != 0)
+  if((verify_values(fonts_directory,songs_directory,config_ini)) != 0)
     return -1;
 
   fclose(config);

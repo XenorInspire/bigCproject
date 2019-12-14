@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "../includes/struct.h"
 #include "../includes/verify.h"
 #include "../includes/xml.h"
 
