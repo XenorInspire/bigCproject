@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include "../includes/struct.h"
+#include "../includes/verify.h"
 
 #define MAX_VOLUME 30
 #define MAX_MUSICS 100
@@ -36,7 +37,7 @@ int8_t does_folder_exist(const char * path){
 }
 
 // Vérifie la conformité des valeurs du fichier config.ini
-int8_t verify_values(char * fonts_directory,char * songs_directory,CONFIG * config_ini){
+int8_t verify_values(char ** fonts_directory,char ** songs_directory,CONFIG * config_ini){
 
   if(config_ini->easy_level_solo_mode < 1 || config_ini->easy_level_solo_mode > MAX_MUSICS)
     return -1;
@@ -66,16 +67,17 @@ int8_t verify_values(char * fonts_directory,char * songs_directory,CONFIG * conf
     return -1;
 
 
-  if(does_folder_exist(songs_directory) != 0)
+  if(does_folder_exist(*songs_directory) != 0)
     return -1;
 
-  if(does_folder_exist(fonts_directory) != 0)
+  if(does_folder_exist(*fonts_directory) != 0)
     return -1;
 
   return 0;
 
 }
 
+//Vérifie si un pointeur a bien été correctement alloué, sinon le programme s'arrête
 void check_memory(void * ptr){
 
   if(ptr == NULL){

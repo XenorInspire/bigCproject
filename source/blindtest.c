@@ -26,7 +26,7 @@ int main(int argc, char const *argv[]) {
   check_memory(songs_directory);
   check_memory(fonts_directory);
 
-  while((init(songs_directory, fonts_directory, &config_ini)) != 0){
+  while((init(&songs_directory, &fonts_directory, &config_ini)) != 0){
 
     printf("Le fichier de configuration est introuvable ou les valeurs renseign%ces ne sont pas coh%crentes, le programme ne peut donc d%cmarrer\n",130,130,130);
     printf("Pour plus d'informations, consultez le fichier readme.md \n");
@@ -53,10 +53,15 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  // printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);
-  // printf("Mode Solo :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_solo_mode,config_ini.medium_level_solo_mode,config_ini.hard_level_solo_mode);
-  // printf("Volume : %hd\n\n",config_ini.volume);
-  // printf("Score : \n\nArtist : %hd\nTitle : %hd\n\n",config_ini.artist_score,config_ini.title_score);
+  // main_settings(&config_ini, &songs_directory);
+
+  //test config.ini
+  printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);
+  printf("Mode Solo :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_solo_mode,config_ini.medium_level_solo_mode,config_ini.hard_level_solo_mode);
+  printf("Volume : %hd\n\n",config_ini.volume);
+  printf("Score : \n\nArtist : %hd\nTitle : %hd\n\n",config_ini.artist_score,config_ini.title_score);
+
+  printf("Fonts : %s\n\nMusics : %s\n\n",fonts_directory,songs_directory);
 
 
   free(songs_directory);
