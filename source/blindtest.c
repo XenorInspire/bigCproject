@@ -43,7 +43,7 @@ int main(int argc, char const *argv[]) {
 
     }
 
-    if(generate_config_ini() != 0){
+    if(generate_config_ini(&config_ini, DEFAULT_GEN) != 0){
 
       printf("Impossible de recr%cer le fichier config.ini, le programme va donc s'arr%cter \n",130,136);
       sleep(2000);
