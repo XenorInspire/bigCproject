@@ -6,6 +6,8 @@
 #include "../includes/struct.h"
 #include "../includes/verify.h"
 #include "../includes/xml.h"
+#include "../includes/manage_song.h"
+
 
 //Copie d'un fichier vers le nom du dossier
 int8_t copy_file(const char * source_path, const char * dest_path){
@@ -94,7 +96,7 @@ int8_t create_xml(const char * file_name){
 char * file_content(const char * file_name, int line_size){
 
   char * pointer_content = NULL;
-  pointer_content = malloc(file_size(file_name) * sizeof(char));
+  pointer_content = malloc(file_size(file_name) + 1 * sizeof(char));
   check_memory(pointer_content);
 
   strcpy(pointer_content,"\0");
@@ -119,4 +121,44 @@ int8_t verify_xml(const char * file_name){
     create_xml("library.xml");
   }
   return 0;
+}
+
+//Obtenir le dernier id song du fichier xml
+uint8_t * root_last_id(struct xml_document * document){
+
+  unsigned int children =  xml_node_children(xml_document_root(document));
+
+  struct xml_node * root = xml_document_root(document);
+
+  //Song node
+  struct xml_node* node_song = xml_node_child(root,children-1);
+  struct xml_node * node_id = xml_node_child(node_song,0);
+
+  //Afficher le contenu du node
+  struct xml_string* id = xml_node_content(node_id);
+
+  uint8_t * content = calloc(xml_string_length(id) + 1, sizeof(uint8_t));
+	xml_string_copy(id, content, xml_string_length(id));
+
+  return content;
+}
+
+//Ajout de la musique dans le fichier xml
+int8_t insert_song_data(const char *file_name, const char * title, const char * artist, const char * path){
+  //recherche id puis incrementation
+
+  FILE * xml_file = NULL;
+  xml_file = fopen(file_name,"r+");
+
+  struct xml_document * document2 = xml_open_document(xml_file);
+  int last_id = atoi(root_last_id(document2)) + 1;
+
+  xml_file = fopen(file_name,"r+");
+  fseek(xml_file,-10,SEEK_END);
+  fprintf(xml_file, "\t<song>\n\t\t<id>%d</id>\n\t\t<title>%s</title>\n\t\t<artist>%s</artist>\n\t\t<file_path>%s</file_path>\n\t</song>\n</songs>\n",last_id,title,artist,path);
+
+  fclose(xml_file);
+  xml_document_free(document2, false);
+  return 0;
+
 }

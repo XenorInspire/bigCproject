@@ -11,3 +11,7 @@ int8_t create_xml(const char * file_name);
 char * file_content(const char * file_name, int line_size);
 
 int8_t verify_xml(const char * file_name);
+
+uint8_t * root_last_id(struct xml_document * document);
+
+int8_t insert_song_data(const char *file_name, const char * title, const char * artist, const char * path);

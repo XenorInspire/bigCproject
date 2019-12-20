@@ -9,6 +9,7 @@
 #include "includes/init.h"
 #include "includes/generate.h"
 #include "includes/verify.h"
+#include "includes/xml.h"
 #include "includes/manage_song.h"
 
 int main(int argc, char const *argv[]) {
