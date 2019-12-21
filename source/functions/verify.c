@@ -29,7 +29,6 @@ int8_t does_file_exist(const char * path){
 // Vérifie si un dossier existe à partir de son chemin d'accès
 int8_t does_folder_exist(const char * path){
 
-    // Check for file existence
     if (access(path, F_OK) == -1)
         return -1;
 
@@ -37,7 +36,7 @@ int8_t does_folder_exist(const char * path){
 }
 
 // Vérifie la conformité des valeurs du fichier config.ini
-int8_t verify_values(char ** fonts_directory,char ** songs_directory,CONFIG * config_ini){
+int8_t verify_values(CONFIG * config_ini){
 
   if(config_ini->easy_level_solo_mode < 1 || config_ini->easy_level_solo_mode > MAX_MUSICS)
     return -1;
@@ -67,10 +66,10 @@ int8_t verify_values(char ** fonts_directory,char ** songs_directory,CONFIG * co
     return -1;
 
 
-  if(does_folder_exist(*songs_directory) != 0)
+  if(does_folder_exist(config_ini->songs_directory) != 0)
     return -1;
 
-  if(does_folder_exist(*fonts_directory) != 0)
+  if(does_folder_exist(config_ini->fonts_directory) != 0)
     return -1;
 
   return 0;
