@@ -109,7 +109,7 @@ char * file_content(const char * file_name, int line_size){
 
 		strcat(pointer_content,buffer);
 	}
-  // printf("%s",pointer_content);
+
 	fclose(fp);
 
   return pointer_content;

@@ -40,13 +40,12 @@ char * find_directory(char * line_config){
 
 }
 
-int8_t init(char * fonts_directory, char * songs_directory, CONFIG * config_ini){
+int8_t init(CONFIG * config_ini){
 
   FILE * config;
   config = fopen("config.ini", "r");
   if(config == NULL) return -1;
 
-  int32_t index;
   char * buffer;
   buffer = malloc(SIZE_LINE * sizeof(char));
   check_memory(buffer);
@@ -74,7 +73,7 @@ int8_t init(char * fonts_directory, char * songs_directory, CONFIG * config_ini)
     }else if((strstr(buffer, "[Music]")) != NULL){
 
       fgets(buffer, SIZE_LINE, config);
-      strcpy(songs_directory,find_directory(buffer));
+      strcpy(config_ini->songs_directory,find_directory(buffer));
 
       fgets(buffer, SIZE_LINE, config);
       config_ini->volume = find_value(buffer);
@@ -91,16 +90,17 @@ int8_t init(char * fonts_directory, char * songs_directory, CONFIG * config_ini)
     }else if((strstr(buffer, "[Fonts]")) != NULL){
 
       fgets(buffer, SIZE_LINE, config);
-      strcpy(fonts_directory,find_directory(buffer));
+      strcpy(config_ini->fonts_directory,find_directory(buffer));
 
     }
 
   }
 
-  if((verify_values(fonts_directory,songs_directory,config_ini)) != 0)
+  fclose(config);
+
+  if((verify_values(config_ini)) != 0)
     return -1;
 
-  fclose(config);
   return 0;
 
 }

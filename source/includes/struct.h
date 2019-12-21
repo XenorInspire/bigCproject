@@ -11,5 +11,7 @@ typedef struct config {
   int16_t volume;
   int16_t artist_score;
   int16_t title_score;
+  char * songs_directory;
+  char * fonts_directory;
 
 } CONFIG;
