@@ -15,3 +15,12 @@ typedef struct config {
   char * fonts_directory;
 
 } CONFIG;
+
+typedef struct song {
+
+  int16_t id;
+  char title[255];
+  char artist[255];
+  char file_path[255];
+
+} SONG;

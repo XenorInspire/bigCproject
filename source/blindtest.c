@@ -71,6 +71,8 @@ int main(int argc, char const *argv[]) {
   // if((copy_file("..\\music\\Lil_Nas_X.mp3","..\\musics")) !=0)
   //   printf("Erreur de copie \n");
 
+  printf("jdsfd");
+
   system("pause");
   return 0;
 
