@@ -13,10 +13,6 @@
 //Génère le config.ini
 int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
 
-  FILE * config = fopen("config.ini","wb");
-  if(config == NULL)
-    return -1;
-
     int16_t easy_level_multi_mode;
     int16_t medium_level_multi_mode;
     int16_t hard_level_multi_mode;
@@ -28,6 +24,9 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
     int16_t title_score;
     char * songs_directory = malloc(256 * sizeof(char));
     char * fonts_directory = malloc(256 * sizeof(char));
+
+    check_memory(songs_directory);
+    check_memory(fonts_directory);
 
   if(mode == DEFAULT_GEN){
 
@@ -45,6 +44,9 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
 
   }else{
 
+    if(verify_values(config_ini) != 0)
+      return -1;
+
     easy_level_multi_mode = config_ini->easy_level_multi_mode;
     medium_level_multi_mode = config_ini->medium_level_multi_mode;
     hard_level_multi_mode = config_ini->hard_level_multi_mode;
@@ -58,6 +60,10 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
     strcpy(fonts_directory, config_ini->fonts_directory);
 
   }
+
+  FILE * config = fopen("config.ini","wb");
+  if(config == NULL)
+    return -1;
 
   char * temp = malloc(SIZE_CONFIG_LINES * sizeof(char));
   check_memory(temp);

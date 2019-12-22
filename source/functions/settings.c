@@ -50,6 +50,7 @@ void m_nb_questions(CONFIG * config_ini){
   int8_t choice = '0';
   int8_t second_choice = '0';
   int16_t value;
+  int16_t temp;
 
   printf("1 : Mode Multijoueur\n");
   printf("2 : Mode Solo \n");
@@ -73,22 +74,45 @@ void m_nb_questions(CONFIG * config_ini){
       fflush(stdin);
       scanf("%hd",&value);
 
+
       if(second_choice == '1'){
 
+        temp = config_ini->easy_level_multi_mode;
         config_ini->easy_level_multi_mode = value;
-        if((generate_config_ini(config_ini, GEN_EMM)) != 0) printf("Impossible de modifier la valeur \n");
+
+        if((generate_config_ini(config_ini, GEN_EMM)) != 0){
+
+          printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+          config_ini->easy_level_multi_mode = temp;
+
+        }
 
       }else if(second_choice == '2'){
 
+        temp = config_ini->medium_level_multi_mode;
         config_ini->medium_level_multi_mode = value;
-        if((generate_config_ini(config_ini, GEN_MMM)) != 0) printf("Impossible de modifier la valeur \n");
+
+        if((generate_config_ini(config_ini, GEN_MMM)) != 0){
+
+          printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+          config_ini->medium_level_multi_mode = temp;
+
+        }
 
       }else if(second_choice == '3'){
 
+        temp = config_ini->hard_level_multi_mode;
         config_ini->hard_level_multi_mode = value;
-        if((generate_config_ini(config_ini, GEN_HMM)) != 0) printf("Impossible de modifier la valeur \n");
+
+        if((generate_config_ini(config_ini, GEN_HMM)) != 0){
+
+          printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+          config_ini->hard_level_multi_mode = temp;
+
+        }
 
       }
+
     }
 
       if(choice == '2'){
@@ -99,22 +123,41 @@ void m_nb_questions(CONFIG * config_ini){
 
         if(second_choice == '1'){
 
+          temp = config_ini->easy_level_solo_mode;
           config_ini->easy_level_solo_mode = value;
-          if((generate_config_ini(config_ini, GEN_ESM)) != 0) printf("Impossible de modifier la valeur \n");
+
+          if((generate_config_ini(config_ini, GEN_ESM)) != 0){
+
+            printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+            config_ini->easy_level_solo_mode = temp;
+
+          }
 
         }else if(second_choice == '2'){
 
+          temp = config_ini->medium_level_solo_mode;
           config_ini->medium_level_solo_mode = value;
-          if((generate_config_ini(config_ini, GEN_MSM)) != 0) printf("Impossible de modifier la valeur \n");
+
+          if((generate_config_ini(config_ini, GEN_MSM)) != 0){
+
+            printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+            config_ini->medium_level_solo_mode = temp;
+
+          }
 
         }else if(second_choice == '3'){
 
+          temp = config_ini->hard_level_solo_mode;
           config_ini->hard_level_solo_mode = value;
-          if((generate_config_ini(config_ini, GEN_HSM)) != 0) printf("Impossible de modifier la valeur \n");
+
+          if((generate_config_ini(config_ini, GEN_HSM)) != 0){
+
+            printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+            config_ini->hard_level_solo_mode = temp;
+
+          }
 
         }
-
-
 
     }
 
@@ -126,6 +169,9 @@ void m_nb_questions(CONFIG * config_ini){
 void m_directory_songs(CONFIG * config_ini){
 
   char * new_songs_directory = malloc(256 * sizeof(char));
+  char * temp = malloc(256 * sizeof(char));
+  check_memory(new_songs_directory);
+  check_memory(temp);
 
   printf("Veuillez saisir le nouveau r%cpertoire des musiques\n",130);
   fflush(stdin);
@@ -134,9 +180,18 @@ void m_directory_songs(CONFIG * config_ini){
   if(new_songs_directory[strlen(new_songs_directory) - 1] == '\n')
     new_songs_directory[strlen(new_songs_directory) - 1] = '\0';
 
+  strcpy(temp,config_ini->songs_directory);
   strcpy(config_ini->songs_directory, new_songs_directory);
 
-  if((generate_config_ini(config_ini, GEN_SONGS)) != 0) printf("Impossible de modifier la valeur \n");
+  if((generate_config_ini(config_ini, GEN_SONGS)) != 0){
+
+    printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+    strcpy(config_ini->songs_directory,temp);
+
+  }
+
+  free(temp);
+  free(new_songs_directory);
 
 }
 
@@ -144,11 +199,19 @@ void m_directory_songs(CONFIG * config_ini){
 void m_volume(CONFIG * config_ini){
 
   int16_t new_volume;
+  int16_t temp;
 
   printf("Veuillez entrer le nouveau volume \n");
   scanf("%hd",&new_volume);
+
+  temp = config_ini->volume;
   config_ini->volume = new_volume;
 
-  if((generate_config_ini(config_ini, GEN_VOL)) != 0) printf("Impossible de modifier la valeur \n");
+  if((generate_config_ini(config_ini, GEN_VOL)) != 0){
+
+    printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
+    config_ini->volume = temp;
+
+  }
 
 }

@@ -52,15 +52,15 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  // main_settings(&config_ini);
-  //
-  // //test config.ini
-  // printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);
-  // printf("Mode Solo :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_solo_mode,config_ini.medium_level_solo_mode,config_ini.hard_level_solo_mode);
-  // printf("Volume : %hd\n\n",config_ini.volume);
-  // printf("Score : \n\nArtist : %hd\nTitle : %hd\n\n",config_ini.artist_score,config_ini.title_score);
-  //
-  // printf("Fonts : %s\n\nMusics : %s\n\n",config_ini.fonts_directory,config_ini.songs_directory);
+  main_settings(&config_ini);
+
+  //test config.ini
+  printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);
+  printf("Mode Solo :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_solo_mode,config_ini.medium_level_solo_mode,config_ini.hard_level_solo_mode);
+  printf("Volume : %hd\n\n",config_ini.volume);
+  printf("Score : \n\nArtist : %hd\nTitle : %hd\n\n",config_ini.artist_score,config_ini.title_score);
+
+  printf("Fonts : %s\n\nMusics : %s\n\n",config_ini.fonts_directory,config_ini.songs_directory);
 
 
   free(config_ini.songs_directory);
