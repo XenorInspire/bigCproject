@@ -170,10 +170,16 @@ void m_directory_songs(CONFIG * config_ini){
 
   char * new_songs_directory = malloc(256 * sizeof(char));
   char * temp = malloc(256 * sizeof(char));
+  char * command = malloc(600 * sizeof(char));
+  char * temp_command = malloc(600 * sizeof(char));
+  char * position;
+
   check_memory(new_songs_directory);
   check_memory(temp);
+  check_memory(command);
+  check_memory(temp_command);
 
-  printf("Veuillez saisir le nouveau r%cpertoire des musiques\n",130);
+  printf("Veuillez saisir le nouveau r%cpertoire de la biblioth%cque musicale\n",130,138);
   fflush(stdin);
   fgets(new_songs_directory, 256, stdin);
 
@@ -187,6 +193,15 @@ void m_directory_songs(CONFIG * config_ini){
 
     printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
     strcpy(config_ini->songs_directory,temp);
+
+  }else{
+
+    sprintf(temp_command,"mv %s '%s'",temp,config_ini->songs_directory);
+    position = strrchr(temp_command,92);
+
+    strcat(strncpy(command,temp_command,strlen(temp_command) - strlen(position)),"'");
+    printf("|%s|\n",command);
+    system(command);
 
   }
 

@@ -47,15 +47,16 @@ int8_t verify_values(CONFIG * config_ini){
   if(config_ini->hard_level_solo_mode < 1 || config_ini->hard_level_solo_mode > MAX_MUSICS)
     return -1;
 
+
   if(config_ini->easy_level_multi_mode < 1 || config_ini->easy_level_multi_mode > MAX_MUSICS)
     return -1;
-
 
   if(config_ini->medium_level_multi_mode < 1 || config_ini->medium_level_multi_mode > MAX_MUSICS)
     return -1;
 
   if(config_ini->hard_level_multi_mode < 1 || config_ini->hard_level_multi_mode > MAX_MUSICS)
     return -1;
+
 
   if(config_ini->volume < 0 || config_ini->volume > MAX_VOLUME)
     return -1;

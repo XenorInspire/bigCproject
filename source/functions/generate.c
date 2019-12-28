@@ -47,6 +47,9 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
     if(verify_values(config_ini) != 0)
       return -1;
 
+    if(mode == GEN_SONGS)
+      strcat(config_ini->songs_directory,"\\music");
+
     easy_level_multi_mode = config_ini->easy_level_multi_mode;
     medium_level_multi_mode = config_ini->medium_level_multi_mode;
     hard_level_multi_mode = config_ini->hard_level_multi_mode;
