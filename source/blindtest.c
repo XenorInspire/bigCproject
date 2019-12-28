@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
-// #include "../lib/fmod/fmod.h"
+#include "../lib/fmod/fmod.h"
 #include "includes/struct.h"
 #include "includes/init.h"
 #include "includes/generate.h"
@@ -52,7 +52,7 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  main_settings(&config_ini);
+  // main_settings(&config_ini);
 
   //test config.ini
   printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);

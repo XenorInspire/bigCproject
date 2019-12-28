@@ -16,7 +16,7 @@ int main(int argc, char const *argv[]) {
     system("gcc -c ../source/functions/xml.c");
     system("gcc -c ../source/blindtest.c");
     system("gcc -c ../source/functions/settings.c");
-    system("gcc blindtest.o xml.o settings.o init.o generate.o verify.o manage_song.o -o blindtest.exe");
+    system("gcc blindtest.o ../lib/fmod/libfmodex.a xml.o settings.o init.o generate.o verify.o manage_song.o -o blindtest.exe");
 
     system("mv generate.o ../source/functions/generate.o");
     system("mv init.o ../source/functions/init.o");
