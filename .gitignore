@@ -48,3 +48,5 @@ test*
 source/blindtest.exe
 source/config_old.ini
 temp/
+
+source/library_test.xml

@@ -8,6 +8,10 @@
 #include "../includes/xml.h"
 #include "../includes/manage_song.h"
 
+#define SIZE_LINE 200
+
+#define XML_DEFAULT 0
+#define XML_MODIFIED 1
 
 //Copie d'un fichier vers le nom du dossier
 int8_t copy_file(const char * source_path, const char * dest_path){
@@ -77,16 +81,34 @@ long int file_size(const char * path){
 }
 
 //Recreation du fichier xml
-int8_t create_xml(const char * file_name){
+int8_t create_xml(const char * file_name, int8_t mode, char ** content){
+
+  int32_t i = 0;
   FILE * xml_file = NULL;
   xml_file = fopen(file_name,"wb");
-  char * root;
-  root = malloc(100 * sizeof(char));
-  if (root == NULL)
+
+  if(xml_file == NULL)
     return -1;
 
-  strcpy(root, "<songs>\n</songs>");
-  fprintf(xml_file, "%s\n",root);
+  if(mode == XML_DEFAULT){
+
+    char * root;
+    root = malloc(100 * sizeof(char));
+    check_memory(root);
+
+    strcpy(root, "<songs>\n</songs>");
+    fprintf(xml_file, "%s\n",root);
+
+  }else{
+
+    i = 0;
+    while(strchr(content[i],'<') != NULL){
+      fprintf(xml_file,"%s",content[i]);
+      i++;
+    }
+
+  }
+
 
   fclose(xml_file);
   return 0;
@@ -115,10 +137,102 @@ char * file_content(const char * file_name, int line_size){
   return pointer_content;
 }
 
+// Supprime les informations d'une musique à partir de son ID
+int8_t delete_music(const char * file_name, uint16_t id){
+
+  uint16_t number = id;
+  int32_t i = 0;
+  int16_t j = 0;
+
+  do {
+      j++;
+  }
+  while ((number = number / 10) > 0);
+
+  char * id_string = malloc((j + 10) * sizeof(char)); // 10 = 1 (\0) + 9 (balises <id></id>)
+  check_memory(id_string);
+  sprintf(id_string,"<id>%hd</id>",id);
+
+  FILE * library = fopen(file_name,"rb");
+  if (library == NULL)
+    return -1;
+
+  char * xml_content = file_content(file_name,SIZE_LINE);
+
+  if(strstr(xml_content,id_string) == NULL)
+    return -1; //l'ID en question n'existe pas
+
+  long int number_of_lines = nb_lines(file_name);
+
+  char * buffer = malloc(SIZE_LINE * sizeof(char));
+  check_memory(buffer);
+
+  char ** content = malloc(number_of_lines * sizeof(char *));
+  if(content == NULL)
+    return -2;
+
+  for(i = 0; i < number_of_lines; i++){
+    content[i] = malloc(SIZE_LINE * sizeof(char));
+    check_memory(content[i]);
+  }
+
+  i = 0;
+  while(fgets(buffer,SIZE_LINE,library) != NULL){
+
+    strcpy(content[i],buffer);
+    if(strstr(buffer,id_string) != NULL){
+
+      for(j = 0; j < 6; j++){
+
+        fgets(buffer,SIZE_LINE,library);
+        if(strstr(buffer,"</songs>") != NULL){
+
+          j = -1;
+          strcpy(content[i-1],"</songs>");
+          strcpy(content[i],"\0");
+          break;
+
+        }
+
+      }
+        if(j > 0)
+          strcpy(content[i],buffer);
+
+    }
+
+    i++;
+  }
+
+  if(create_xml(file_name,XML_MODIFIED,content) != 0)
+    return -1;
+
+  return 0;
+
+}
+
+// Compte le nombre de lignes de la librairie XML
+int32_t nb_lines(const char * file_name){
+
+  int32_t number_of_lines = 0;
+  FILE * xml_file = fopen(file_name, "r");
+  int character;
+
+  while((character = fgetc(xml_file)) != EOF)
+  {
+
+  	if(character == '\n')
+  		number_of_lines++;
+}
+
+  fclose(xml_file);
+  return number_of_lines;
+
+}
+
 //Verif si le fichier xml existe sinon le cree, sa structure
 int8_t verify_xml(const char * file_name){
   if (does_file_exist(file_name)) {
-    create_xml("library.xml");
+    create_xml("library.xml",XML_DEFAULT,NULL);
   }
   return 0;
 }
@@ -218,7 +332,7 @@ void array_sort(unsigned int array[],unsigned int array_size){
   }
 }
 
-//Recherche des deonnes de la musique ID
+//Recherche des donnes de la musique ID
 void find_song(SONG * song, struct xml_document * document, int id_song){
   unsigned int counter = 0;
   int current_id = 0;
