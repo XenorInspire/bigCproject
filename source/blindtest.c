@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  game_solo_mode(&config_ini);
+  game_solo_init(&config_ini);
   // main_settings(&config_ini); //paramètres du jeu
   // if(delete_music("library_test.xml",2) != 0)
   //   printf("Impossible de supprimer cette musique\n");
