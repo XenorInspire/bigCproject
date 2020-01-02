@@ -118,7 +118,7 @@ int8_t create_xml(const char * file_name, int8_t mode, char ** content){
 char * file_content(const char * file_name, int line_size){
 
   char * pointer_content = NULL;
-  pointer_content = malloc(file_size(file_name) + 1 * sizeof(char));
+  pointer_content = malloc(file_size(file_name));
   check_memory(pointer_content);
 
   strcpy(pointer_content,"\0");
@@ -436,4 +436,37 @@ uint8_t verify_song_insert(SONG * input_song, struct xml_document * document){
     counter++;
   }
 	return 0;
+}
+
+//Retourne la liste des id
+unsigned int * id_list(struct xml_document * document){
+
+  unsigned int counter = 0;
+  unsigned int last_id;
+  unsigned int new_id = 0;
+
+  struct xml_node * root = xml_document_root(document);
+  unsigned int children =  xml_node_children(root);
+
+  unsigned int* ids = malloc(sizeof(unsigned int) *children);
+
+  while (counter < children) {
+    //Song node
+    struct xml_node* node_song = xml_node_child(root,counter);
+    struct xml_node * node_id = xml_node_child(node_song,0);
+    //Afficher le contenu du node
+    struct xml_string* id = xml_node_content(node_id);
+    uint8_t * content = calloc(xml_string_length(id) + 1, sizeof(uint8_t));
+  	xml_string_copy(id, content, xml_string_length(id));
+
+    last_id = atoi(content);
+
+    ids[counter] = last_id;
+
+    counter++;
+  }
+
+  array_sort(ids,children);
+
+  return ids;
 }
