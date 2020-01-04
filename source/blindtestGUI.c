@@ -9,13 +9,13 @@
 #include <time.h>
 
 
-#include "../includes/gui.h"
-#include "../includes/struct.h"
-#include "../includes/game.h"
-#include "../includes/xml.h"
-#include "../includes/manage_song.h"
-#include "../includes/verify.h"
-#include "../../lib/fmod/fmod.h"
+#include "includes/gui.h"
+#include "includes/struct.h"
+#include "includes/game.h"
+#include "includes/xml.h"
+#include "includes/manage_song.h"
+#include "includes/verify.h"
+#include "../lib/fmod/fmod.h"
 #include "includes/settings.h"
 
 int main(int argc,char **argv){
