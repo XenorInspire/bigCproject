@@ -12,12 +12,16 @@
 #include "../includes/verify.h"
 #include "../../lib/fmod/fmod.h"
 
+#define MAX_STR_USER 300
+
 // Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie
 int8_t game_solo_init(CONFIG * config_ini){
 
   char choice = '1';
+  char choice_score;
   int16_t nb_max_songs;
   int16_t counter;
+  int16_t score;
 
   while(choice > '0'){
 
@@ -45,7 +49,20 @@ int8_t game_solo_init(CONFIG * config_ini){
     }
 
     printf("La partie commence !\n");
-    play_solo_mode(nb_max_songs,config_ini,1);
+    score = play_solo_mode(nb_max_songs,config_ini,1);
+    printf("Partie termin%ce !\nVotre score est de %hd !\nVoulez-vous l'enregistrer ? \n",130,score);
+    printf("o\\n\n");
+    fflush(stdin);
+    scanf("%c", &choice_score);
+
+    if(choice_score == 'o' || choice_score == 'O')
+      if(save_score(score) != 0)
+        printf("Impossible d'enregistrer votre score \n");
+
+
+    printf("Voulez-vous recommencez une nouvelle partie ?\n1 : Oui\n0 : Non\n");
+    fflush(stdin);
+    scanf("%c", &choice);
 
   }
 
@@ -54,14 +71,22 @@ int8_t game_solo_init(CONFIG * config_ini){
 }
 
 // Fonction pour le mode de jeu solo
-void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players){
+int16_t play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players){
 
   srand(time(NULL));
   int16_t score = 0;
   int id_music;
-  int16_t index;
+  int16_t index = -1;
+  int16_t temp = 0;
+  int16_t questions = 0;
   SONG current_song;
   FMOD_SONG system_song;
+
+  char * title_input = malloc(MAX_STR_USER * sizeof(char));
+  char * artist_input = malloc(MAX_STR_USER * sizeof(char));
+
+  check_memory(title_input);
+  check_memory(artist_input);
 
   FILE * xml_file = NULL;
   xml_file = fopen("library.xml","rb");
@@ -73,24 +98,68 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_player
 
   while(nb_max_songs > 0){
 
+    printf("Question %hd !\n",questions + 1);
+
     do{
 
-      index = rand() % nb_elements + 1;
+      index = rand() % (nb_elements - 1) + 1;
+      while(index == temp) //on évite que la prochaine musique soit la même que la précédente
+        index = rand() % (nb_elements - 1) + 1;
+
       id_music = list_id[index];
       find_song(&current_song,document,id_music);
-      // printf("ID : %hd\nTitle : %s\nArtist : %s\nFile Path : %s\n\n",current_song.id,current_song.title,current_song.artist,current_song.file_path);
 
     }
     while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
 
-    Sleep(5000);
+    Sleep(15000);
     stop_music(&system_song);
 
+    printf("L'%ccoute est maintenant termin%ce, veuillez saisir le titre de la musique \n",130,130);
+    fflush(stdin);
+    fgets(title_input,MAX_STR_USER - 1,stdin);
+    printf("Veuillez %c pr%csent saisir l'artiste \n",133,130);
+    fflush(stdin);
+    fgets(artist_input,MAX_STR_USER - 1,stdin);
+
+    if(artist_input[strlen(artist_input) - 1] == '\n')
+      artist_input[strlen(artist_input) - 1] = '\0';
+
+    if(title_input[strlen(title_input) - 1] == '\n')
+      title_input[strlen(title_input) - 1] = '\0';
+
+    if(stricmp(current_song.artist,artist_input) == 0){
+
+      printf("Bien jou%c ! Vous avez trouv%c l'artiste !\n",130,130);
+      score = score + config_ini->artist_score;
+
+    }else{
+
+      printf("Rat%c ! Ce n'%ctait pas le bon artiste. Il s'agissait de %s \n",130,130,current_song.artist);
+
+    }
+
+    if(stricmp(current_song.title,title_input) == 0){
+
+      printf("Bien jou%c ! Vous avez trouv%c le bon titre !\n",130,130);
+      score = score + config_ini->title_score;
+
+    }else{
+
+      printf("Rat%c ! Ce n'%ctait pas le bon titre. Il s'agissait de %s \n",130,130,current_song.title);
+
+    }
+
     nb_max_songs--;
+    temp = index;
+    questions++;
 
   }
 
   fclose(xml_file);
+  free(artist_input);
+  free(title_input);
+  return score;
 
 }
 
@@ -113,7 +182,7 @@ int8_t play_fmod_music(SONG * current_song, CONFIG * config_ini, FMOD_SONG * sys
   /* On ouvre la musique */
   resultat = FMOD_System_CreateSound(sys, song_path, FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &sound);
 
-   /* On vérifie si elle a bien été ouverte (IMPORTANT) */
+   /* On vérifie si elle a bien été ouverte */
   if (resultat != FMOD_OK) return -1;
 
   /* On joue la musique */
@@ -122,6 +191,7 @@ int8_t play_fmod_music(SONG * current_song, CONFIG * config_ini, FMOD_SONG * sys
   system_song->sys = sys;
   system_song->sound = sound;
 
+  free(song_path);
   return 0;
 
 }
@@ -131,5 +201,29 @@ void stop_music(FMOD_SONG * system_song){
 
   FMOD_Sound_Release(system_song->sound);
   FMOD_System_Close(system_song->sys);
+
+}
+
+int8_t save_score(int16_t score){
+
+  FILE * score_backup;
+  score_backup = fopen("score.txt","ab");
+
+  if(score_backup == NULL)
+    return -1;
+
+  char * pseudo = malloc(MAX_STR_USER * sizeof(char));
+  check_memory(pseudo);
+
+  printf("Veuillez saisir un pseudo \n");
+  fflush(stdin);
+  fgets(pseudo,MAX_STR_USER - 1,stdin);
+
+  if(pseudo[strlen(pseudo) - 1] == '\n')
+    pseudo[strlen(pseudo) - 1] = '\0';
+
+  fprintf(score_backup,"%s | Score : %hd\n",pseudo,score);
+  free(pseudo);
+  return 0;
 
 }
