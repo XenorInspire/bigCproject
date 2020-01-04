@@ -356,7 +356,7 @@ void find_song(SONG * song, struct xml_document * document, int id_song){
   } while(current_id != id_song && counter < children);
 
   if (current_id != id_song) {
-    printf("Id non trouvable\n");
+    // ID introuvable
     song -> id = 0;
     strcpy(song -> title,"NULL");
     strcpy(song -> artist, "NULL");

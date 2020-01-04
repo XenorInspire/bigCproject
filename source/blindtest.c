@@ -6,6 +6,7 @@
 
 #include "../lib/fmod/fmod.h"
 #include "includes/struct.h"
+#include "includes/game.h"
 #include "includes/init.h"
 #include "includes/generate.h"
 #include "includes/verify.h"
@@ -52,9 +53,10 @@ int main(int argc, char const *argv[]) {
 
   }
 
+  game_solo_init(&config_ini);
   // main_settings(&config_ini); //paramètres du jeu
-  if(delete_music("library_test.xml",2) != 0)
-    printf("Impossible de supprimer cette musique\n");
+  // if(delete_music("library_test.xml",2) != 0)
+  //   printf("Impossible de supprimer cette musique\n");
 
   //test config.ini
   // printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini.easy_level_multi_mode,config_ini.medium_level_multi_mode,config_ini.hard_level_multi_mode);

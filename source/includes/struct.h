@@ -1,4 +1,4 @@
-#include <stdint.h>
+#include "../../lib/fmod/fmod.h"
 
 typedef struct config {
 
@@ -24,3 +24,10 @@ typedef struct song {
   char file_path[255];
 
 } SONG;
+
+typedef struct fmod_song {
+
+  FMOD_SYSTEM * sys;
+  FMOD_SOUND * sound;
+
+} FMOD_SONG;
