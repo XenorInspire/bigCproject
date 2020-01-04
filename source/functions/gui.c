@@ -41,21 +41,20 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
 
   // printf("%s, %s, %s\n",file_path,title,artist);
 
-  //Suppression du chemin du fichier source pour mettre le bon chemin dans le xml
+  // //Suppression du chemin du fichier source pour mettre le bon chemin dans le xml
   char file_name[255] = "";
   const char back_slash = '\\';
   char * res = NULL;
   res = strrchr(file_path,back_slash);
 
   if (res != NULL) {
-    // strcpy(file_name,res+1);
-    sprintf(file_name,"musics\\%s",res+1);
+    strcpy(file_name,res+1);
+    // sprintf(file_name,"musics\\%s",res+1);
   }else{
-    sprintf(file_name,"musics\\%s",file_path);
-    // strcpy(file_name,file_path);
+    // sprintf(file_name,"musics\\%s",file_path);
+    strcpy(file_name,file_path);
   }
 
-  printf("%s\n",file_name );
 
   SONG song;
   strcpy(song.title,title);
@@ -64,8 +63,7 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
 
   insert_song_data("library.xml",&song);
 
-  printf("%s\n",song.file_path );
-  copy_file(file_path,"musics");
+  copy_file(file_path,"../music");
 
 
   //Enleve ce qu'on a tape
