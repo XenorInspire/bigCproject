@@ -14,16 +14,27 @@
 
 #define MAX_STR_USER 300
 
-// Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie
-int8_t game_solo_init(CONFIG * config_ini){
+// Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie en multi
+int8_t game_multi_init(CONFIG * config_ini){
 
   char choice = '1';
-  char choice_score;
   int16_t nb_max_songs;
   int16_t counter;
   int16_t score;
+  int16_t nb_players;
+  int16_t * score_players;
 
   while(choice > '0'){
+
+    printf("Veuillez s%cl%cctionner le nombre de joueurs\n2 joueurs minimum\n5 Joueurs maximum\n",130,130);
+    scanf("%hd",&nb_players);
+
+    while(nb_players < 2 || nb_players > 5){
+
+      printf("Erreur, veuillez entrer un nombre de joueur entre 2 et 5 maximumu\n");
+      scanf("%hd",&nb_players);
+
+    }
 
     printf("Veuillez %c pr%csent s%cl%cctionner le niveau de difficult%c \n",133,130,130,130,130);
     printf("1 : Facile : %hd questions\n2 : Moyen : %hd questions\n3 : Difficile : %hd questions\n",config_ini->easy_level_solo_mode,config_ini->medium_level_solo_mode,config_ini->hard_level_solo_mode);
@@ -49,18 +60,73 @@ int8_t game_solo_init(CONFIG * config_ini){
     }
 
     printf("La partie commence !\n");
-    score = play_solo_mode(nb_max_songs,config_ini,1);
-    printf("Partie termin%ce !\nVotre score est de %hd !\nVoulez-vous l'enregistrer ? \n",130,score);
+    score_players = play_multi_mode(nb_max_songs * nb_players,config_ini,nb_players);
+
+    printf("Voulez-vous recommencer une nouvelle partie ?\n1 : Oui\n0 : Non\n");
+    fflush(stdin);
+    scanf("%c", &choice);
+
+  }
+
+  return 0;
+
+}
+
+// Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie en solo
+int8_t game_solo_init(CONFIG * config_ini){
+
+  char choice = '1';
+  char choice_score;
+  int16_t nb_max_songs;
+  int16_t counter;
+  PLAYER solo_player;
+  solo_player.pseudo = malloc(MAX_STR_USER * sizeof(char));
+  check_memory(solo_player.pseudo);
+
+  while(choice > '0'){
+
+    printf("Veuillez saisir votre pseudo\n");
+    fflush(stdin);
+    fgets(solo_player.pseudo,MAX_STR_USER,stdin);
+
+    if(solo_player.pseudo[strlen(solo_player.pseudo) - 1] == '\n')
+      solo_player.pseudo[strlen(solo_player.pseudo) - 1] = '\0';
+
+    printf("Veuillez %c pr%csent s%cl%cctionner le niveau de difficult%c \n",133,130,130,130,130);
+    printf("1 : Facile : %hd questions\n2 : Moyen : %hd questions\n3 : Difficile : %hd questions\n",config_ini->easy_level_solo_mode,config_ini->medium_level_solo_mode,config_ini->hard_level_solo_mode);
+    printf("0 : Quitter\n");
+
+    fflush(stdin);
+    scanf("%c",&choice);
+
+    switch(choice){
+
+      case 48 : return 0;
+                break;
+
+      case 49 : nb_max_songs = config_ini->easy_level_solo_mode;
+                break;
+
+      case 50 : nb_max_songs = config_ini->medium_level_solo_mode;
+                break;
+
+      case 51 : nb_max_songs = config_ini->hard_level_solo_mode;
+                break;
+
+    }
+
+    printf("%s, la partie commence !\n",solo_player.pseudo);
+    play_solo_mode(nb_max_songs,config_ini,&solo_player);
+    printf("Partie termin%ce !\nVotre score est de %hd !\nVoulez-vous l'enregistrer ? \n",130,solo_player.score);
     printf("o\\n\n");
     fflush(stdin);
     scanf("%c", &choice_score);
 
     if(choice_score == 'o' || choice_score == 'O')
-      if(save_score(score) != 0)
+      if(save_score(&solo_player) != 0)
         printf("Impossible d'enregistrer votre score \n");
 
-
-    printf("Voulez-vous recommencez une nouvelle partie ?\n1 : Oui\n0 : Non\n");
+    printf("Voulez-vous recommencer une nouvelle partie ?\n1 : Oui\n0 : Non\n");
     fflush(stdin);
     scanf("%c", &choice);
 
@@ -71,16 +137,16 @@ int8_t game_solo_init(CONFIG * config_ini){
 }
 
 // Fonction pour le mode de jeu solo
-int16_t play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players){
+void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_player){
 
   srand(time(NULL));
-  int16_t score = 0;
   int id_music;
   int16_t index = -1;
   int16_t temp = 0;
   int16_t questions = 0;
   SONG current_song;
   FMOD_SONG system_song;
+  solo_player->score = 0;
 
   char * title_input = malloc(MAX_STR_USER * sizeof(char));
   char * artist_input = malloc(MAX_STR_USER * sizeof(char));
@@ -107,6 +173,101 @@ int16_t play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_pla
         index = rand() % (nb_elements - 1) + 1;
 
       id_music = list_id[index];
+      find_song(&current_song,document,id_music);
+
+    }
+    while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
+
+    Sleep(15000);
+    stop_music(&system_song);
+
+    printf("L'%ccoute est maintenant termin%ce, veuillez saisir le titre de la musique \n",130,130);
+    fflush(stdin);
+    fgets(title_input,MAX_STR_USER - 1,stdin);
+    printf("Veuillez %c pr%csent saisir l'artiste\n",133,130);
+    fflush(stdin);
+    fgets(artist_input,MAX_STR_USER - 1,stdin);
+
+    if(artist_input[strlen(artist_input) - 1] == '\n')
+      artist_input[strlen(artist_input) - 1] = '\0';
+
+    if(title_input[strlen(title_input) - 1] == '\n')
+      title_input[strlen(title_input) - 1] = '\0';
+
+    if(stricmp(current_song.artist,artist_input) == 0){
+
+      printf("Bien jou%c ! Vous avez trouv%c l'artiste !\n",130,130);
+      solo_player->score = solo_player->score + config_ini->artist_score;
+
+    }else{
+
+      printf("Rat%c ! Ce n'%ctait pas le bon artiste. Il s'agissait de %s \n",130,130,current_song.artist);
+
+    }
+
+    if(stricmp(current_song.title,title_input) == 0){
+
+      printf("Bien jou%c ! Vous avez trouv%c le bon titre !\n",130,130);
+      solo_player->score = solo_player->score + config_ini->title_score;
+
+    }else{
+
+      printf("Rat%c ! Ce n'%ctait pas le bon titre. Il s'agissait de %s \n",130,130,current_song.title);
+
+    }
+
+    nb_max_songs--;
+    temp = index;
+    questions++;
+
+  }
+
+  fclose(xml_file);
+  free(artist_input);
+  free(title_input);
+
+}
+
+// Fonction pour le mode de jeu multijoueur
+int16_t * play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players){
+
+  srand(time(NULL));
+  int16_t score = 0;
+  int id_music;
+  int16_t index_music = -1;
+  int16_t index_players = 0;
+  int16_t temp = 0;
+  int16_t questions = 0;
+  SONG current_song;
+  FMOD_SONG system_song;
+
+  char * title_input = malloc(MAX_STR_USER * sizeof(char));
+  char * artist_input = malloc(MAX_STR_USER * sizeof(char));
+  int16_t * score_players = malloc(nb_players * sizeof(int16_t));
+
+  check_memory(title_input);
+  check_memory(artist_input);
+  check_memory(score_players);
+
+  FILE * xml_file = NULL;
+  xml_file = fopen("library.xml","rb");
+  struct xml_document * document = xml_open_document(xml_file);
+  unsigned int * list_id = id_list(document);
+
+  struct xml_node * root = xml_document_root(document);
+  unsigned int nb_elements =  xml_node_children(root);
+
+  while(nb_max_songs > 0){
+
+    printf("Question %hd !\n",questions + 1);
+
+    do{
+
+      index_music = rand() % (nb_elements - 1) + 1;
+      while(index_music == temp) //on évite que la prochaine musique soit la même que la précédente
+        index_music = rand() % (nb_elements - 1) + 1;
+
+      id_music = list_id[index_music];
       find_song(&current_song,document,id_music);
 
     }
@@ -151,7 +312,8 @@ int16_t play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_pla
     }
 
     nb_max_songs--;
-    temp = index;
+    temp = index_music;
+    index_players++;
     questions++;
 
   }
@@ -159,7 +321,7 @@ int16_t play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_pla
   fclose(xml_file);
   free(artist_input);
   free(title_input);
-  return score;
+  return score_players;
 
 }
 
@@ -204,7 +366,7 @@ void stop_music(FMOD_SONG * system_song){
 
 }
 
-int8_t save_score(int16_t score){
+int8_t save_score(PLAYER * solo_player){
 
   FILE * score_backup;
   score_backup = fopen("score.txt","ab");
@@ -212,18 +374,7 @@ int8_t save_score(int16_t score){
   if(score_backup == NULL)
     return -1;
 
-  char * pseudo = malloc(MAX_STR_USER * sizeof(char));
-  check_memory(pseudo);
-
-  printf("Veuillez saisir un pseudo \n");
-  fflush(stdin);
-  fgets(pseudo,MAX_STR_USER - 1,stdin);
-
-  if(pseudo[strlen(pseudo) - 1] == '\n')
-    pseudo[strlen(pseudo) - 1] = '\0';
-
-  fprintf(score_backup,"%s | Score : %hd\n",pseudo,score);
-  free(pseudo);
+  fprintf(score_backup,"%s | Score : %hd\n",solo_player->pseudo,solo_player->score);
   return 0;
 
 }
