@@ -1,20 +1,21 @@
 #include <gtk/gtk.h>
-
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include <windows.h>
+#include <time.h>
 
 
-
+#include "../includes/gui.h"
 #include "../includes/struct.h"
-#include "../includes/verify.h"
+#include "../includes/game.h"
 #include "../includes/xml.h"
 #include "../includes/manage_song.h"
-#include "../includes/gui.h"
+#include "../includes/verify.h"
+#include "../../lib/fmod/fmod.h"
 
 enum {
-
   LIST_ITEM = 0,
   N_COLUMNS
 };
@@ -86,10 +87,11 @@ void remove_item(GtkWidget *widget, gpointer selection) {
       return;
   }
 
-  if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),
-         &model, &iter)) {
+  if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(selection),&model, &iter)) {
     gtk_list_store_remove(store, &iter);
   }
+
+
 }
 
 //Retier toute la Musique
@@ -117,8 +119,7 @@ void init_list(GtkWidget *list) {
   GtkListStore       *store;
 
   renderer = gtk_cell_renderer_text_new();
-  column = gtk_tree_view_column_new_with_attributes("List Item",
-          renderer, "text", LIST_ITEM, NULL);
+  column = gtk_tree_view_column_new_with_attributes("List Item",renderer, "text", LIST_ITEM, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(list), column);
 
   store = gtk_list_store_new(N_COLUMNS, G_TYPE_STRING);
@@ -238,6 +239,7 @@ void add_music(){
   SONG song;
   char content[255];
 
+  //Ajout dans la liste des musiques
   for (int i = 1; i < children; i++) {
     find_song(&song,document,i);
     sprintf(content,"%s - %s\n",song.title, song.artist);
@@ -252,6 +254,7 @@ void add_music(){
   // song_data->title = title_entry;
   // song_data->artist = artist_entry;
 
+  //Tableau pour inseerer les donnees entrees par l'utilisateur
   gpointer *song_data = g_new (gpointer, 3);
   song_data[0] = path_entry;
   song_data[1] = title_entry;
