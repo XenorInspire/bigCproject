@@ -5,4 +5,10 @@
     <artist></artist>
     <file_path></file_path>
   </song>
+	<song>
+		<id>1</id>
+		<title>Je sais pas </title>
+		<artist>Always with me</artist>
+		<file_path>musics\Always With Me.mp3</file_path>
+	</song>
 </songs>
