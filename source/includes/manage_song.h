@@ -27,3 +27,5 @@ uint8_t verify_song_insert(SONG * input_song, struct xml_document * document);
 int8_t delete_music(const char * file_name, uint16_t id);
 
 int32_t nb_lines(const char * file_name);
+
+unsigned int * id_list(struct xml_document * document);

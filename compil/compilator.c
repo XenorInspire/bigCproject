@@ -16,10 +16,14 @@ int main(int argc, char const *argv[]) {
     system("gcc -c ../source/functions/xml.c");
     system("gcc -c ../source/blindtest.c");
     system("gcc -c ../source/functions/settings.c");
-    system("gcc blindtest.o ../lib/fmod/libfmodex.a xml.o settings.o init.o generate.o verify.o manage_song.o -o blindtest.exe");
+    system("gcc -c ../source/functions/game.c");
+    // system("gcc ../lib/fmod/libfmodex.a -c ../source/functions/game.c");
+    // system("gcc blindtest.o ../lib/fmod/libfmodex.a game.o xml.o settings.o init.o generate.o verify.o manage_song.o -o blindtest.exe");
+    system("gcc -o blindtest.exe blindtest.o  game.o xml.o settings.o init.o generate.o verify.o manage_song.o ../lib/fmod/libfmodex.a ");
 
     system("mv generate.o ../source/functions/generate.o");
     system("mv init.o ../source/functions/init.o");
+    system("mv game.o ../source/functions/game.o");
     system("mv settings.o ../source/functions/settings.o");
     system("mv verify.o ../source/functions/verify.o");
     system("mv manage_song.o ../source/functions/manage_song.o");

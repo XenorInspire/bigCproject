@@ -5,10 +5,124 @@
     <artist></artist>
     <file_path></file_path>
   </song>
-	<song>
-		<id>1</id>
-		<title>Je sais pas </title>
-		<artist>Always with me</artist>
-		<file_path>musics\Always With Me.mp3</file_path>
-	</song>
+  <song>
+    <id>1</id>
+    <title>Les quatre saisons</title>
+    <artist>Vivaldi</artist>
+    <file_path>4 saisons - Vivaldi.mp3</file_path>
+  </song>
+  <song>
+    <id>2</id>
+    <title>Dream On</title>
+    <artist>Aerosmith</artist>
+    <file_path>Aerosmith - Dream On.mp3</file_path>
+  </song>
+  <song>
+    <id>3</id>
+    <title>Be Mine</title>
+    <artist>Ofenbach</artist>
+    <file_path>Ofenbach - Be Mine.mp3</file_path>
+  </song>
+  <song>
+    <id>4</id>
+    <title>Attention</title>
+    <artist>Charlie Puth</artist>
+    <file_path>Charlie Puth - Attention.mp3</file_path>
+  </song>
+  <song>
+    <id>5</id>
+    <title>Dangerous</title>
+    <artist>David Guetta</artist>
+    <file_path>David Guetta - Dangerous.mp3</file_path>
+  </song>
+  <song>
+    <id>6</id>
+    <title>Highway to Hell</title>
+    <artist>ACDC</artist>
+    <file_path>ACDC - Highway to Hell.mp3</file_path>
+  </song>
+  <song>
+    <id>7</id>
+    <title>Fly Me To The Moon</title>
+    <artist>Frank Sinatra</artist>
+    <file_path>Frank Sinatra Fly Me To The Moon.mp3</file_path>
+  </song>
+  <song>
+    <id>8</id>
+    <title>Giant</title>
+    <artist>RagNBoneMan</artist>
+    <file_path>Giant.mp3</file_path>
+  </song>
+  <song>
+    <id>9</id>
+    <title>Girls Like You</title>
+    <artist>Maroon five</artist>
+    <file_path>Girls Like You.mp3</file_path>
+  </song>
+  <song>
+    <id>10</id>
+    <title>Welcome To The Jungle</title>
+    <artist>Guns N Roses</artist>
+    <file_path>Guns N Roses - Welcome To The Jungle.mp3</file_path>
+  </song>
+  <song>
+    <id>11</id>
+    <title>Believer</title>
+    <artist>Imagine Dragons</artist>
+    <file_path>imagine-dragons-believer.mp3</file_path>
+  </song>
+  <song>
+    <id>12</id>
+    <title>Old Town Road</title>
+    <artist>Lil Nas X</artist>
+    <file_path>Lil_Nas_X - Old Town Road.mp3</file_path>
+  </song>
+  <song>
+    <id>13</id>
+    <title>Lucid Dreams</title>
+    <artist>Juice WRLD</artist>
+    <file_path>Lucid Dreams.mp3</file_path>
+  </song>
+  <song>
+    <id>14</id>
+    <title>Smells Like Teen Spirit</title>
+    <artist>Nirvana</artist>
+    <file_path>Nirvana - Smells Like Teen Spirit.mp3</file_path>
+  </song>
+  <song>
+    <id>15</id>
+    <title>Counting Stars</title>
+    <artist>Onerepublic</artist>
+    <file_path>Onerepublic - Counting Stars.mp3</file_path>
+  </song>
+  <song>
+    <id>16</id>
+    <title>High Hopes</title>
+    <artist>Panic! At The Disco</artist>
+    <file_path>Panic! At The Disco_ High Hopes.mp3</file_path>
+  </song>
+  <song>
+    <id>17</id>
+    <title>Temperature</title>
+    <artist>Sean Paul</artist>
+    <file_path>Sean Paul - Temperature.mp3</file_path>
+  </song>
+  <song>
+    <id>18</id>
+    <title>Wake me Up</title>
+    <artist>Avicii</artist>
+    <file_path>Wake me Up - Avicii.mp3</file_path>
+  </song>
+  <song>
+    <id>19</id>
+    <title>Havana</title>
+    <artist>Camilla Cabello</artist>
+    <file_path>Havana.mp3</file_path>
+  </song>
+  <song>
+    <id>20</id>
+    <title>Better Now</title>
+    <artist>Post Malone</artist>
+    <file_path>Post Malone-Better Now.mp3</file_path>
+  </song>
 </songs>
