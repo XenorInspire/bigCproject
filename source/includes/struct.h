@@ -31,3 +31,10 @@ typedef struct fmod_song {
   FMOD_SOUND * sound;
 
 } FMOD_SONG;
+
+typedef struct player {
+
+  char * pseudo;
+  int16_t score;
+
+} PLAYER;
