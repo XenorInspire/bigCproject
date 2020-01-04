@@ -50,14 +50,14 @@
   <song>
     <id>8</id>
     <title>Giant</title>
-    <artist>Calvin Harris - RagNBoneMan</artist>
+    <artist>RagNBoneMan</artist>
     <file_path>Giant.mp3</file_path>
   </song>
   <song>
     <id>9</id>
     <title>Girls Like You</title>
-    <artist>Maroon 5 - Cardi B</artist>
-    <file_path>Girls Like You (feat. Cardi B).mp3</file_path>
+    <artist>Maroon five</artist>
+    <file_path>Girls Like You.mp3</file_path>
   </song>
   <song>
     <id>10</id>
@@ -85,9 +85,9 @@
   </song>
   <song>
     <id>14</id>
-    <title>Be Mine</title>
-    <artist>Ofenbach</artist>
-    <file_path>Ofenbach - Be Mine.mp3</file_path>
+    <title>Smells Like Teen Spirit</title>
+    <artist>Nirvana</artist>
+    <file_path>Nirvana - Smells Like Teen Spirit.mp3</file_path>
   </song>
   <song>
     <id>15</id>
