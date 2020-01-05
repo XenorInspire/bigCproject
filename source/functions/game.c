@@ -166,11 +166,11 @@ int8_t game_solo_init(CONFIG * config_ini){
 // Fonction pour le mode de jeu solo
 void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_player){
 
-  // srand(time(NULL));
+  srand(time(NULL));
   int id_music;
   int16_t index;
   int16_t temp = 0;
-  int16_t questions = 0;
+  int16_t questions = 1;
   int16_t counter = 0;
   SONG current_song;
   FMOD_SONG system_song;
@@ -192,7 +192,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
 
   while(counter < nb_max_songs){
 
-    printf("Question %hd ! c = %hd\n",questions,counter);
+    printf("Question %hd !\n",questions);
 
     do{
 
@@ -206,7 +206,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
     }
     while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
 
-    Sleep(10);
+    Sleep(15000);
     stop_music(&system_song);
 
     printf("L'%ccoute est maintenant termin%ce, veuillez saisir le titre de la musique \n",130,130);
@@ -250,9 +250,9 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
 
   }
 
-  fclose(xml_file);
   free(artist_input);
   free(title_input);
+  fclose(xml_file);
 
 }
 
@@ -268,6 +268,12 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
   SONG current_song;
   FMOD_SONG system_song;
 
+  char * title_input = malloc(MAX_STR_USER * sizeof(char));
+  char * artist_input = malloc(MAX_STR_USER * sizeof(char));
+
+  check_memory(title_input);
+  check_memory(artist_input);
+
   for(int8_t i = 0; i < nb_players; i++)
     list_players[i].score = 0;
 
@@ -281,11 +287,6 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
 
   while(nb_max_songs > 0){
 
-    char * title_input = malloc(MAX_STR_USER * sizeof(char));
-    char * artist_input = malloc(MAX_STR_USER * sizeof(char));
-
-    check_memory(title_input);
-    check_memory(artist_input);
 
     index_players = nb_max_songs % nb_players;
     printf("Question %hd pour %s\n",questions,list_players[index_players].pseudo);
@@ -293,13 +294,12 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
     do{
 
       index_music = rand() % (nb_elements - 1) + 1;
-      printf("911\n");
       while(index_music == temp) //on évite que la prochaine musique soit la même que la précédente
         index_music = rand() % (nb_elements - 1) + 1;
 
       id_music = list_id[index_music];
       find_song(&current_song,document,id_music);
-      // printf("title : %s\nartist : %s\nid : %d\nidm : %d\n",current_song.title,current_song.artist,current_song.id,id_music);
+
     }
     while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
 
@@ -345,11 +345,10 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
     temp = index_music;
     questions++;
 
-    free(artist_input);
-    free(title_input);
-
   }
 
+  free(artist_input);
+  free(title_input);
   fclose(xml_file);
 
 }
@@ -369,12 +368,6 @@ int8_t play_fmod_music(SONG * current_song, CONFIG * config_ini, FMOD_SONG * sys
 
   strcpy(song_path,config_ini->songs_directory);
   strcat(song_path,current_song->file_path);
-
-  if(system_song->sys == NULL)
-    printf("ddddd\n");
-
-  if(system_song->sound == NULL)
-    printf("fffff\n");
 
   /* On ouvre la musique */
   resultat = FMOD_System_CreateSound(sys, song_path, FMOD_SOFTWARE | FMOD_2D | FMOD_CREATESTREAM, 0, &sound);
