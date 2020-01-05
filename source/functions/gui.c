@@ -394,4 +394,36 @@ void play_game(){
   //Mode plein ecran
   // gtk_window_fullscreen(GTK_WINDOW(pWindow2));
 
+
+  srand(time(NULL));
+  int id_music;
+  int16_t index = -1;
+  int16_t temp = 0;
+  SONG current_song;
+  FMOD_SONG system_song;
+
+
+  FILE * xml_file = NULL;
+  xml_file = fopen("library.xml","rb");
+  struct xml_document * document = xml_open_document(xml_file);
+  unsigned int * list_id = id_list(document);
+
+  struct xml_node * root = xml_document_root(document);
+  unsigned int nb_elements =  xml_node_children(root);
+
+  do{
+
+    index = rand() % (nb_elements - 1) + 1;
+    while(index == temp) //on évite que la prochaine musique soit la même que la précédente
+      index = rand() % (nb_elements - 1) + 1;
+
+    id_music = list_id[index];
+    find_song(&current_song,document,id_music);
+
+  }
+  while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
+
+  Sleep(15000);
+  stop_music(&system_song);
+
 }
