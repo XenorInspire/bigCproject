@@ -82,7 +82,6 @@ void remove_item(GtkWidget *widget, gpointer delete_entry) {
 
   unsigned int delete_id = atoi(gtk_entry_get_text(delete_entry));
 
-  // delete_music("library.xml", delete_id);
 
   //Recherche du path
   FILE * xml_file = NULL;
@@ -90,10 +89,14 @@ void remove_item(GtkWidget *widget, gpointer delete_entry) {
 
   struct xml_document * document = xml_open_document(xml_file);
 
-  SONG * delete_song;
-  // find_song(delete_song, document, delete_id);
+  SONG delete_song;
+  find_song(&delete_song, document, delete_id);
+  char delete_file_path[255];
+  sprintf(delete_file_path,"../music/%s",delete_song.file_path);
+  printf("%s\n",delete_file_path );
+  delete_file(delete_file_path);
 
-  // delete_file(delete_song->file_path);
+  delete_music("library.xml", delete_id);
 
   store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(list));
@@ -269,14 +272,11 @@ void add_music(){
   //Ajout dans la liste des musiques
   unsigned int * id_list(struct xml_document * document);
 
-  int * list_id = id_list(document);
-  for (size_t i = 0; i < 20; i++) {
-    printf("%d,",*(list_id+i));
-  }
+  unsigned int * list_id = id_list(document);
 
   for (int i = 1; i < children; i++) {
     find_song(&song,document,*(list_id+i));
-    sprintf(content,"%d) %s - %s\n",song.id,song.title, song.artist);
+    sprintf(content,"%u) %s - %s\n",song.id,song.title, song.artist);
     add_to_list(list, content);
   }
 
@@ -289,7 +289,7 @@ void add_music(){
   // song_data->title = title_entry;
   // song_data->artist = artist_entry;
 
-  //Tableau pour inseerer les donnees entrees par l'utilisateur
+  //Tableau pour inserer les donnees entrees par l'utilisateur
   gpointer *song_data = g_new (gpointer, 3);
   song_data[0] = path_entry;
   song_data[1] = title_entry;
