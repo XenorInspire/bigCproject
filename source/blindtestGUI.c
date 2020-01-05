@@ -5,8 +5,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <windows.h>
-#include <time.h>
 
 
 #include "includes/gui.h"
@@ -32,13 +30,19 @@ int main(int argc,char **argv){
 }
 
 //Compiler avec Mysys64
-//gcc -c `pkg-config --cflags gtk+-3.0` gui.c `pkg-config --libs gtk+-3.0`
-//gcc -c functions/xml.c
+//gcc -c `pkg-config --cflags gtk+-3.0` functions/gui.c `pkg-config --libs gtk+-3.0`
+//gcc -c functions/generate.c
+//gcc -c functions/init.c
 //gcc -c functions/verify.c
 //gcc -c functions/manage_song.c
+//gcc -c functions/xml.c
+//gcc -c `pkg-config --cflags gtk+-3.0` blindtestGUI.c `pkg-config --libs gtk+-3.0`
+//gcc -c functions/settings.c
+//gcc -c functions/game.c
 
-//gcc `pkg-config --cflags gtk+-3.0` -o blindtestGUI.exe blindtestGUI.c gui.o xml.o verify.o manage_song.o `pkg-config --libs gtk+-3.0`
+//gcc `pkg-config --cflags gtk+-3.0` -o blindtestGUI.exe blindtestGUI.o gui.o xml.o verify.o manage_song.o game.o generate.o init.o settings.o `pkg-config --libs gtk+-3.0` ../lib/fmod/libfmodex.a
+// gcc `pkg-config --cflags gtk+-3.0` -o blindtestGUI.exe blindtestGUI.o gui.o xml.o verify.o manage_song.o generate.o init.o settings.o `pkg-config --libs gtk+-3.0` ../lib/fmod/libfmodex.a
 
 
 //Si on veut cacher la console lors du lancement du programme
-//gcc -mwindows `pkg-config --cflags gtk+-3.0` -o gui.exe gui.c `pkg-config --libs gtk+-3.0`
+//gcc -mwindows `pkg-config --cflags gtk+-3.0` -o blindtestGUI.exe blindtestGUI.o gui.o xml.o verify.o manage_song.o game.o generate.o init.o settings.o ../lib/fmod/libfmodex.a `pkg-config --libs gtk+-3.0`
