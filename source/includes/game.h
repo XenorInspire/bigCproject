@@ -12,4 +12,6 @@ int8_t save_score(PLAYER * solo_player);
 
 int8_t game_multi_init(CONFIG * config_ini);
 
-int16_t * play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players);
+void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players, PLAYER * list_players);
+
+void display_score(int16_t nb_players, PLAYER * list_players);

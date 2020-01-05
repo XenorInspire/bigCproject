@@ -259,7 +259,7 @@ uint8_t * root_last_id(struct xml_document * document){
 
 //Ajout de la musique dans le fichier xml
 int8_t insert_song_data(const char *file_name, SONG * input_song){
-  //recher id puis incrementation
+  //recherche id puis incrémentation
 
   FILE * xml_file = NULL;
   xml_file = fopen(file_name,"r+");
