@@ -18,7 +18,7 @@ typedef struct config {
 
 typedef struct song {
 
-  int16_t id;
+  int32_t id;
   char title[255];
   char artist[255];
   char file_path[255];
