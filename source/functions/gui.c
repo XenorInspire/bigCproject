@@ -349,7 +349,7 @@ void menu(GtkWidget* main_window){
   quit = gtk_button_new_with_label("Quitter");
 
   //Signaux pour les evenements
-  // g_signal_connect(G_OBJECT(play), "clicked", G_CALLBACK(play_game), NULL);
+  g_signal_connect(G_OBJECT(play), "clicked", G_CALLBACK(play_game), NULL);
   g_signal_connect(G_OBJECT(musics), "clicked", G_CALLBACK(add_music), NULL);
   g_signal_connect(G_OBJECT(quit), "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
@@ -369,61 +369,62 @@ void menu(GtkWidget* main_window){
 
 }
 
-// //Fenetre jeu
-// void play_game(){
-//
-//   GtkWidget *game_window;
-//   GtkWidget *pText2;
-//
-//   //Creation de la fenetre
-//   game_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-//   //Position de la fenetre
-//   gtk_window_set_position(GTK_WINDOW(game_window), GTK_WIN_POS_CENTER);
-//   //Taille de la fenêtre
-//   gtk_window_set_default_size(GTK_WINDOW(game_window), 1080, 920);
-//   //Titre de la fenetre
-//   gtk_window_set_title(GTK_WINDOW(game_window), "Blind Test");
-//
-//   //Creation du labelpour texte
-//   pText2 = gtk_label_new("Blind Test");
-//   //Ajout du label dans la fenêtre
-//   gtk_container_add(GTK_CONTAINER(game_window), pText2);
-//
-//   //Affichage des widgets de la fenetre
-//   gtk_widget_show_all(game_window);
-//   //Mode plein ecran
-//   // gtk_window_fullscreen(GTK_WINDOW(pWindow2));
-//
-//
-//   srand(time(NULL));
-//   int id_music;
-//   int16_t index = -1;
-//   int16_t temp = 0;
-//   SONG current_song;
-//   FMOD_SONG system_song;
-//
-//
-//   FILE * xml_file = NULL;
-//   xml_file = fopen("library.xml","rb");
-//   struct xml_document * document = xml_open_document(xml_file);
-//   unsigned int * list_id = id_list(document);
-//
-//   struct xml_node * root = xml_document_root(document);
-//   unsigned int nb_elements =  xml_node_children(root);
-//
-//   do{
-//
-//     index = rand() % (nb_elements - 1) + 1;
-//     while(index == temp) //on évite que la prochaine musique soit la même que la précédente
-//       index = rand() % (nb_elements - 1) + 1;
-//
-//     id_music = list_id[index];
-//     find_song(&current_song,document,id_music);
-//
-//   }
-//   while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
-//
-//   Sleep(15000);
-//   stop_music(&system_song);
-//
-// }
+//Fenetre jeu
+void play_game(){
+
+  // GtkWidget *game_window;
+  // GtkWidget *pText2;
+  //
+  // //Creation de la fenetre
+  // game_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  // //Position de la fenetre
+  // gtk_window_set_position(GTK_WINDOW(game_window), GTK_WIN_POS_CENTER);
+  // //Taille de la fenêtre
+  // gtk_window_set_default_size(GTK_WINDOW(game_window), 1080, 920);
+  // //Titre de la fenetre
+  // gtk_window_set_title(GTK_WINDOW(game_window), "Blind Test");
+  //
+  // //Creation du labelpour texte
+  // pText2 = gtk_label_new("Blind Test");
+  // //Ajout du label dans la fenêtre
+  // gtk_container_add(GTK_CONTAINER(game_window), pText2);
+  //
+  // //Affichage des widgets de la fenetre
+  // gtk_widget_show_all(game_window);
+  //Mode plein ecran
+  // gtk_window_fullscreen(GTK_WINDOW(pWindow2));
+
+  system("blindtest.exe");
+
+  // srand(time(NULL));
+  // int id_music;
+  // int16_t index = -1;
+  // int16_t temp = 0;
+  // SONG current_song;
+  // FMOD_SONG system_song;
+  //
+  //
+  // FILE * xml_file = NULL;
+  // xml_file = fopen("library.xml","rb");
+  // struct xml_document * document = xml_open_document(xml_file);
+  // unsigned int * list_id = id_list(document);
+  //
+  // struct xml_node * root = xml_document_root(document);
+  // unsigned int nb_elements =  xml_node_children(root);
+  //
+  // do{
+  //
+  //   index = rand() % (nb_elements - 1) + 1;
+  //   while(index == temp) //on évite que la prochaine musique soit la même que la précédente
+  //     index = rand() % (nb_elements - 1) + 1;
+  //
+  //   id_music = list_id[index];
+  //   find_song(&current_song,document,id_music);
+  //
+  // }
+  // while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
+  //
+  // Sleep(15000);
+  // stop_music(&system_song);
+
+}
