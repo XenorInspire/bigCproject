@@ -46,3 +46,6 @@ int main(int argc,char **argv){
 
 //Si on veut cacher la console lors du lancement du programme
 //gcc -mwindows `pkg-config --cflags gtk+-3.0` -o blindtestGUI.exe blindtestGUI.o gui.o xml.o verify.o manage_song.o game.o generate.o init.o settings.o ../lib/fmod/libfmodex.a `pkg-config --libs gtk+-3.0`
+
+// Pour compiler FMOD et GTK en même temps
+// gcc -o blindtestGUI.exe blindtestGUI.o gui.o xml.o verify.o manage_song.o generate.o init.o settings.o `pkg-config --libs gtk+-3.0` ../lib/fmod/libfmodex.a
