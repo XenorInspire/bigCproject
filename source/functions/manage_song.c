@@ -555,7 +555,6 @@ uint8_t verify_song_insert(SONG * input_song, struct xml_document * document){
     }
 
     if (strcmp(researched_song.file_path,input_song->file_path) == 0) {
-      printf("Cette musique existe deja\n");
       return -2;//cette musique existe deja
     }
 

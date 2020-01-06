@@ -61,10 +61,19 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
   strcpy(song.artist,artist);
   strcpy(song.file_path,file_name);
 
-  insert_song_data("library.xml",&song);
+  FILE * xml_file = NULL;
+  xml_file = fopen("library.xml","r");
+  struct xml_document * document = xml_open_document(xml_file);
 
-  copy_file(file_path,"../music");
+  if (verify_song_insert(&song,document) != 0) {
+    printf("Le titre et l'artiste existent dans la bibliothèque\n");
+  }else{
+    insert_song_data("library.xml",&song);
+    copy_file(file_path,"../music");
+  }
 
+  fclose(xml_file);
+  xml_document_free(document,false);
 
   //Enleve ce qu'on a tape
   gtk_entry_set_text(song_data[0], "");
@@ -229,7 +238,7 @@ void add_music(){
   artist_entry = gtk_entry_new();
   gtk_widget_set_size_request(artist_entry, 120, -1);
   artist_text = gtk_label_new(NULL);
-  gtk_label_set_markup(GTK_LABEL(artist_text), "Titre :");//Permettre les markup avec Pango
+  gtk_label_set_markup(GTK_LABEL(artist_text), "Artiste :");//Permettre les markup avec Pango
 
   delete_entry = gtk_entry_new();
   gtk_widget_set_size_request(delete_entry, 120, -1);
