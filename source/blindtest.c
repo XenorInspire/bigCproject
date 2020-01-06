@@ -53,6 +53,7 @@ int main(int argc, char const *argv[]) {
 
   }
 
+  verify_xml("library.xml");
   // game_multi_init(&config_ini); //mode multijoueur
   // game_solo_init(&config_ini); //mode solo
   // main_settings(&config_ini); //paramètres du jeu
@@ -61,11 +62,6 @@ int main(int argc, char const *argv[]) {
 
   free(config_ini.songs_directory);
   free(config_ini.fonts_directory);
-
-
-  //test copy
-  // if((copy_file("..\\music\\Lil_Nas_X.mp3","..\\musics")) !=0)
-  //   printf("Erreur de copie \n");
 
   system("pause");
   return 0;

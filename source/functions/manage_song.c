@@ -227,7 +227,8 @@ int8_t create_xml(const char * file_name, int8_t mode, char ** content){
         "<file_path>Post Malone-Better Now.mp3</file_path>\n"
       "</song>\n"
     "</songs>";
-
+    printf("Print\n");
+    fprintf(xml_file, "%s",xml_default_content);
 
   }else{
 
@@ -359,12 +360,12 @@ int32_t nb_lines(const char * file_name){
 
 }
 
-//Verif si le fichier xml existe sinon le cree, sa structure
-int8_t verify_xml(const char * file_name){
-  if (does_file_exist(file_name)) {
+//Vérifie si le fichier de librairie library.xml existe
+void verify_xml(const char * file_name){
+  if (does_file_exist(file_name) != 0) {
     create_xml("library.xml",XML_DEFAULT,NULL);
   }
-  return 0;
+
 }
 
 //Obtenir le dernier id song du fichier xml
