@@ -173,7 +173,7 @@ void add_music(){
 
   GtkWidget *remove;
   GtkWidget *add;
-  GtkWidget *removeAll;
+  // GtkWidget *removeAll;
   GtkWidget *path_entry;
   GtkWidget *title_entry;
   GtkWidget *artist_entry;
@@ -215,7 +215,7 @@ void add_music(){
 
   add = gtk_button_new_with_label("Ajouter");
   remove = gtk_button_new_with_label("Supprimer");
-  removeAll = gtk_button_new_with_label("Tout supprimer");
+  // removeAll = gtk_button_new_with_label("Tout supprimer");
 
   path_entry = gtk_entry_new();
   gtk_widget_set_size_request(path_entry, 120, -1);
@@ -249,7 +249,7 @@ void add_music(){
   gtk_box_pack_start(GTK_BOX(hbox), delete_text, FALSE, TRUE, 3);
   gtk_box_pack_start(GTK_BOX(hbox), delete_entry, FALSE, TRUE, 3);
   gtk_box_pack_start(GTK_BOX(hbox), remove, FALSE, TRUE, 3);
-  gtk_box_pack_start(GTK_BOX(hbox), removeAll, FALSE, TRUE, 3);
+  // gtk_box_pack_start(GTK_BOX(hbox), removeAll, FALSE, TRUE, 3);
 
   gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 3);
 
@@ -301,7 +301,7 @@ void add_music(){
 
   g_signal_connect(G_OBJECT(remove), "clicked",G_CALLBACK(remove_item), delete_entry);
 
-  g_signal_connect(G_OBJECT(removeAll), "clicked",G_CALLBACK(remove_all), selection);
+  // g_signal_connect(G_OBJECT(removeAll), "clicked",G_CALLBACK(remove_all), selection);
 
   // g_signal_connect(G_OBJECT(window), "destroy",
   //         G_CALLBACK(gtk_main_quit), NULL);
