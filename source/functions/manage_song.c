@@ -92,12 +92,6 @@ int8_t create_xml(const char * file_name, int8_t mode, char ** content){
 
   if(mode == XML_DEFAULT){
 
-    // char * root;
-    // root = malloc(100 * sizeof(char));
-    // check_memory(root);
-    //
-    // strcpy(root, "<songs>\n</songs>");
-    // fprintf(xml_file, "%s\n",root);
     char * xml_default_content = ""
     "<songs>\n"
       "<song>\n"
@@ -157,7 +151,7 @@ int8_t create_xml(const char * file_name, int8_t mode, char ** content){
       "<song>\n"
         "<id>9</id>\n"
         "<title>Girls Like You</title>\n"
-        "<artist>Maroon five</artist>\n"
+        "<artist>Maroon 5</artist>\n"
         "<file_path>Girls Like You.mp3</file_path>\n"
       "</song>\n"
       "<song>\n"
