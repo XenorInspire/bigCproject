@@ -1,8 +1,9 @@
+#define MAX_STR_USER 300
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include <windows.h>
 #include <time.h>
 
 #include "../includes/struct.h"
@@ -12,7 +13,6 @@
 #include "../includes/verify.h"
 #include "../../lib/fmod/fmod.h"
 
-#define MAX_STR_USER 300
 
 // Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie en multi
 int8_t game_multi_init(CONFIG * config_ini){
@@ -206,7 +206,8 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
     }
     while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
 
-    Sleep(15000);
+    SLEEP(15000);
+
     stop_music(&system_song);
 
     printf("L'%ccoute est maintenant termin%ce, veuillez saisir le titre de la musique \n",130,130);
@@ -303,7 +304,7 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
     }
     while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
 
-    Sleep(15000);
+    SLEEP(15000);
     stop_music(&system_song);
 
     printf("L'%ccoute est maintenant termin%ce, veuillez saisir le titre de la musique \n",130,130);

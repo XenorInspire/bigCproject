@@ -2,7 +2,6 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <io.h>
-#include <unistd.h>
 
 #include "../includes/struct.h"
 #include "../includes/verify.h"
@@ -84,7 +83,7 @@ void check_memory(void * ptr){
   if(ptr == NULL){
 
     printf("Vous ne disposez pas d'assez de m%cmoire disponible, le programme va donc s'%cteindre \n",130,130);
-    sleep(3000);
+    SLEEP(3000);
     exit(0);
 
   }
