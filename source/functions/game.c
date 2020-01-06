@@ -363,6 +363,7 @@ int8_t play_fmod_music(SONG * current_song, CONFIG * config_ini, FMOD_SONG * sys
   FMOD_SYSTEM * sys;
   FMOD_SOUND * sound;
   FMOD_RESULT resultat;
+  FMOD_CHANNEL * channel;
 
   FMOD_System_Create(&sys);
   FMOD_System_Init(sys, 1, FMOD_INIT_NORMAL, NULL);
@@ -375,6 +376,9 @@ int8_t play_fmod_music(SONG * current_song, CONFIG * config_ini, FMOD_SONG * sys
 
    /* On vérifie si elle a bien été ouverte */
   if (resultat != FMOD_OK) return -1;
+
+  FMOD_System_GetChannel(sys,1, &channel);
+  FMOD_Channel_SetVolume(channel, config_ini->volume);
 
   /* On joue la musique */
   FMOD_System_PlaySound(sys, FMOD_CHANNEL_FREE, sound, 0, NULL);
