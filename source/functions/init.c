@@ -7,7 +7,7 @@
 #include "../includes/init.h"
 #include "../includes/verify.h"
 
-#define SIZE_LINE 80
+#define SIZE_LINE 100
 
 // Renvoie la valeur numérique de la ligne de config.ini
 int16_t find_value(char * line_config){
@@ -50,46 +50,46 @@ int8_t init(CONFIG * config_ini){
   buffer = malloc(SIZE_LINE * sizeof(char));
   check_memory(buffer);
 
-  while(fgets(buffer, SIZE_LINE, config) != NULL){
+  while(fgets(buffer, SIZE_LINE - 1, config) != NULL){
 
     if((strstr(buffer, "Multiplayer mode")) != NULL){
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->easy_level_multi_mode = find_value(buffer);
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->medium_level_multi_mode = find_value(buffer);
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->hard_level_multi_mode = find_value(buffer);
 
     }else if((strstr(buffer, "Solo mode")) != NULL){
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->easy_level_solo_mode = find_value(buffer);
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->medium_level_solo_mode = find_value(buffer);
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->hard_level_solo_mode = find_value(buffer);
 
     }else if((strstr(buffer, "[Music]")) != NULL){
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       strcpy(config_ini->songs_directory,find_directory(buffer));
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->volume = find_value(buffer);
 
 
     }else if((strstr(buffer, "[Points]")) != NULL){
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->artist_score = find_value(buffer);
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       config_ini->title_score = find_value(buffer);
 
     }else if((strstr(buffer, "[Fonts]")) != NULL){
 
-      fgets(buffer, SIZE_LINE, config);
+      fgets(buffer, SIZE_LINE - 1, config);
       strcpy(config_ini->fonts_directory,find_directory(buffer));
 
     }

@@ -336,21 +336,21 @@ int8_t delete_music(const char * file_name, uint16_t id){
 
 }
 
-// Compte le nombre de lignes de la librairie XML
+// Compte le nombre de lignes d'un fichier
 int32_t nb_lines(const char * file_name){
 
   int32_t number_of_lines = 0;
-  FILE * xml_file = fopen(file_name, "r");
-  int character;
+  FILE * file_txt = fopen(file_name, "r");
+  int8_t character;
 
-  while((character = fgetc(xml_file)) != EOF)
+  while((character = fgetc(file_txt)) != EOF)
   {
 
   	if(character == '\n')
   		number_of_lines++;
-}
+  }
 
-  fclose(xml_file);
+  fclose(file_txt);
   return number_of_lines;
 
 }
