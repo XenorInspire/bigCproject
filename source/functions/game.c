@@ -1,5 +1,3 @@
-#define MAX_STR_USER 300
-
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -13,6 +11,8 @@
 #include "../includes/verify.h"
 #include "../../lib/fmod/fmod.h"
 
+#define MAX_STR_USER 200
+#define LINE_SCORE 300
 
 // Fonction permettant de choisir le niveau de difficulté avant de démarrer la partie en multi
 int8_t game_multi_init(CONFIG * config_ini){
@@ -80,7 +80,7 @@ int8_t game_multi_init(CONFIG * config_ini){
 
     printf("La partie commence !\n");
     play_multi_mode(nb_max_songs * nb_players,config_ini,nb_players,list_players);
-    display_score(nb_players, list_players);
+    display_multi_score(nb_players, list_players);
 
     printf("Voulez-vous recommencer une nouvelle partie ?\n1 : Oui\n0 : Non\n");
     fflush(stdin);
@@ -413,7 +413,7 @@ int8_t save_score(PLAYER * solo_player){
 
 }
 
-void display_score(int16_t nb_players, PLAYER * list_players){
+void display_multi_score(int16_t nb_players, PLAYER * list_players){
 
   int8_t winner;
   int32_t max = 0;
@@ -432,5 +432,61 @@ void display_score(int16_t nb_players, PLAYER * list_players){
   }
 
   printf("Le gagnant est %s avec un score de %hd, bravo %c toi !!\n",list_players[winner].pseudo,list_players[winner].score,133);
+
+}
+
+int8_t display_score(){
+
+  FILE * score_list;
+  score_list = fopen("score.txt","rb");
+  if(score_list == NULL)
+    return -1;
+
+  int32_t size_file = nb_lines("score.txt");
+  int16_t score;
+  PLAYER temp;
+  temp.pseudo = malloc(MAX_STR_USER * sizeof(char));
+  check_memory(temp.pseudo);
+
+  char * buffer = malloc(LINE_SCORE * sizeof(char));
+  check_memory(buffer);
+  PLAYER * players = malloc(size_file * sizeof(PLAYER));
+  check_memory(players);
+
+  for(int16_t i = 0; i < size_file; i++){
+
+   players[i].pseudo = malloc(MAX_STR_USER * sizeof(char));
+   check_memory(players[i].pseudo);
+
+   fgets(buffer, LINE_SCORE - 1, score_list);
+   sscanf(buffer, "%s | Score : %hd", players[i].pseudo,&score);
+   players[i].score = score;
+  }
+
+  for(int16_t j = 0; j < size_file; j++) {
+    for(int16_t k = j; k < size_file; k++) {
+
+      if(players[k].score > players[j].score){
+
+        temp = players[k];
+        players[k] = players[j];
+        players[j] = temp;
+
+      }
+
+    }
+  }
+
+  if(size_file > 10) // On affiche seulement les 10 meilleurs joueurs
+    size_file = 10;
+
+  for(int16_t m = 0; m < size_file; m++)
+    printf("%hd : %s avec %hd point(s)\n",m,players[m].pseudo,players[m].score);
+
+  printf("\n");
+  free(players);
+  free(buffer);
+
+ return 0;
 
 }

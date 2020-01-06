@@ -54,9 +54,7 @@ int main(int argc, char const *argv[]) {
     if(generate_config_ini(&config_ini, DEFAULT_GEN) != 0){
 
       printf("Impossible de recr%cer le fichier config.ini, le programme va donc s'arr%cter \n",130,136);
-
       SLEEP(2000);
-
       exit(0);
 
     }
@@ -64,14 +62,34 @@ int main(int argc, char const *argv[]) {
   }
 
   verify_xml("library.xml");
-  // game_multi_init(&config_ini); //mode multijoueur
-  // game_solo_init(&config_ini); //mode solo
-  // main_settings(&config_ini); //paramètres du jeu
+  while (choice != '0') {
 
+    printf("1 : Lancer le mode solo\n2 : Lancer le mode multijoueur\n3 : Param%ctres du jeu\n4 : Afficher les scores (mode solo)\n0 : Quitter\n",138);
+    fflush(stdin);
+    scanf("%c",&choice);
+
+    switch (choice) {
+      case '1' : game_solo_init(&config_ini);// Mode solo
+                 break;
+
+      case '2' : game_multi_init(&config_ini); // Mode multijoueur
+                 break;
+
+      case '3' : main_settings(&config_ini); // Paramètres du jeu
+                 break;
+
+      case '4' : if(display_score() != 0) // Affichages des scores du mode multijoueur
+                  printf("La liste des scores est vide \n");
+                 break;
+    }
+
+  }
+
+  printf("A tr%cs vite pour une nouvelle partie !\n",138);
+  SLEEP(2000);
   free(config_ini.songs_directory);
   free(config_ini.fonts_directory);
 
-  system("pause");
   return 0;
 
 }

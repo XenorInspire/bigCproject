@@ -14,7 +14,9 @@ int8_t game_multi_init(CONFIG * config_ini);
 
 void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players, PLAYER * list_players);
 
-void display_score(int16_t nb_players, PLAYER * list_players);
+void display_multi_score(int16_t nb_players, PLAYER * list_players);
+
+int8_t display_score();
 
 #ifdef _WIN32
   #include <windows.h>
