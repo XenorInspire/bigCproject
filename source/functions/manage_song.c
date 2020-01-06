@@ -337,6 +337,7 @@ int8_t delete_music(const char * file_name, uint16_t id){
   if(create_xml(file_name,XML_MODIFIED,content) != 0)
     return -1;
 
+  fclose(library);
   return 0;
 
 }

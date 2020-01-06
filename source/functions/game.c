@@ -253,7 +253,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
   free(artist_input);
   free(title_input);
   fclose(xml_file);
-
+  xml_document_free(document, false);
 }
 
 // Fonction pour le mode de jeu multijoueur
@@ -350,6 +350,7 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
   free(artist_input);
   free(title_input);
   fclose(xml_file);
+  xml_document_free(document, false);
 
 }
 

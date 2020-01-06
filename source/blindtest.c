@@ -54,11 +54,11 @@ int main(int argc, char const *argv[]) {
   }
 
   verify_xml("library.xml");
-  // game_multi_init(&config_ini); //mode multijoueur
-  // game_solo_init(&config_ini); //mode solo
-  // main_settings(&config_ini); //paramètres du jeu
-  // if(delete_music("library_test.xml",2) != 0)
-  //   printf("Impossible de supprimer cette musique\n");
+  game_multi_init(&config_ini); //mode multijoueur
+  game_solo_init(&config_ini); //mode solo
+  main_settings(&config_ini); //paramètres du jeu
+  if(delete_music("library_test.xml",2) != 0)
+    printf("Impossible de supprimer cette musique\n");
 
   free(config_ini.songs_directory);
   free(config_ini.fonts_directory);

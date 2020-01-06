@@ -106,6 +106,7 @@ void remove_item(GtkWidget *widget, gpointer delete_entry) {
   }
 
   fclose(xml_file);
+  xml_document_free(document, false);
 
   // if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(delete_entry),&model, &iter)) {
   //   gtk_list_store_remove(store, &iter);
@@ -281,6 +282,7 @@ void add_music(){
   }
 
   fclose(xml_file);
+  xml_document_free(document, false);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(list));
 
