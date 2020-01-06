@@ -1,5 +1,5 @@
 //Interface graphique avec GTK
-
+//Anthony Fargette - Nicolas Fouchard - 2020
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <stdint.h>

@@ -1,3 +1,4 @@
+//Fonctions pour l'interface graphique
 #include <gtk/gtk.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -32,7 +33,7 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
   const gchar *title = gtk_entry_get_text(song_data[1]);
   const gchar *artist = gtk_entry_get_text(song_data[2]);
 
-  //Insertion dans la lsit de la fenetre
+  //Insertion dans la liste de la fenetre
   gchar song_full_data[255] = "";
   sprintf(song_full_data,"%s - %s",title,artist);
   store = GTK_LIST_STORE(gtk_tree_view_get_model(GTK_TREE_VIEW(list)));
@@ -40,7 +41,7 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
   gtk_list_store_set(store, &iter, LIST_ITEM, song_full_data, -1);
 
 
-  // printf("%s, %s, %s\n",file_path,title,artist);
+
 
   // //Suppression du chemin du fichier source pour mettre le bon chemin dans le xml
   char file_name[255] = "";
@@ -50,9 +51,7 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
 
   if (res != NULL) {
     strcpy(file_name,res+1);
-    // sprintf(file_name,"musics\\%s",res+1);
   }else{
-    // sprintf(file_name,"musics\\%s",file_path);
     strcpy(file_name,file_path);
   }
 
@@ -111,7 +110,6 @@ void remove_item(GtkWidget *widget, gpointer delete_entry) {
   // if (gtk_tree_selection_get_selected(GTK_TREE_SELECTION(delete_entry),&model, &iter)) {
   //   gtk_list_store_remove(store, &iter);
   // }
-
 
 }
 
@@ -320,7 +318,7 @@ void menu(GtkWidget* main_window){
   GtkWidget *box;
   GtkWidget *play;
   GtkWidget *musics;
-  GtkWidget *settings;
+  // GtkWidget *settings;
   GtkWidget *quit;
   GtkWidget *separator;
 
@@ -347,7 +345,7 @@ void menu(GtkWidget* main_window){
   separator = gtk_separator_new(TRUE);
   play = gtk_button_new_with_label("Jouer");
   musics = gtk_button_new_with_label("Musiques");
-  settings = gtk_button_new_with_label("Paramètres");
+  // settings = gtk_button_new_with_label("Paramètres");
   quit = gtk_button_new_with_label("Quitter");
 
   //Signaux pour les evenements
@@ -360,7 +358,7 @@ void menu(GtkWidget* main_window){
   gtk_box_pack_start(GTK_BOX(box), separator, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(box), play, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(box), musics, FALSE, FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(box), settings, FALSE, FALSE, 0);
+  // gtk_box_pack_start(GTK_BOX(box), settings, FALSE, FALSE, 0);
   gtk_box_pack_start(GTK_BOX(box), quit, FALSE, FALSE, 0);
 
   //Affichage de la fenttre
@@ -397,36 +395,5 @@ void play_game(){
   // gtk_window_fullscreen(GTK_WINDOW(pWindow2));
 
   system("blindtest.exe");
-
-  // srand(time(NULL));
-  // int id_music;
-  // int16_t index = -1;
-  // int16_t temp = 0;
-  // SONG current_song;
-  // FMOD_SONG system_song;
-  //
-  //
-  // FILE * xml_file = NULL;
-  // xml_file = fopen("library.xml","rb");
-  // struct xml_document * document = xml_open_document(xml_file);
-  // unsigned int * list_id = id_list(document);
-  //
-  // struct xml_node * root = xml_document_root(document);
-  // unsigned int nb_elements =  xml_node_children(root);
-  //
-  // do{
-  //
-  //   index = rand() % (nb_elements - 1) + 1;
-  //   while(index == temp) //on évite que la prochaine musique soit la même que la précédente
-  //     index = rand() % (nb_elements - 1) + 1;
-  //
-  //   id_music = list_id[index];
-  //   find_song(&current_song,document,id_music);
-  //
-  // }
-  // while(play_fmod_music(&current_song,config_ini,&system_song) != 0);
-  //
-  // Sleep(15000);
-  // stop_music(&system_song);
 
 }
