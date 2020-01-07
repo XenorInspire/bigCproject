@@ -252,13 +252,10 @@ char * file_content(const char * file_name, int32_t line_size){
   FILE * fp = NULL;
 	fp = fopen(file_name,"r");
 
-	while (fgets(buffer,line_size,fp) != NULL) {
-
+	while (fgets(buffer,line_size,fp) != NULL)
 		strcat(pointer_content,buffer);
-	}
 
 	fclose(fp);
-
   return pointer_content;
 }
 
@@ -269,6 +266,7 @@ int8_t delete_music(const char * file_name, uint16_t id){
   int32_t i = 0;
   int16_t j = 0;
 
+  // On calcule le nombre de chiffres dans le nombre
   do {
       j++;
   }
