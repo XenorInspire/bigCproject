@@ -167,7 +167,7 @@ int8_t game_solo_init(CONFIG * config_ini){
 void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_player){
 
   srand(time(NULL));
-  int id_music;
+  int32_t id_music;
   int16_t index;
   int16_t temp = 0;
   int16_t questions = 1;
@@ -190,6 +190,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
   struct xml_node * root = xml_document_root(document);
   unsigned int nb_elements =  xml_node_children(root);
 
+  // Tant que l'utilisateur n'a pas répondu à toutes les questions
   while(counter < nb_max_songs){
 
     printf("Question %hd !\n",questions);
@@ -223,6 +224,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
     if(title_input[strlen(title_input) - 1] == '\n')
       title_input[strlen(title_input) - 1] = '\0';
 
+    // On compare le nom de l'artiste de la librairie avec celui données par l'utilisateur
     if(stricmp(current_song.artist,artist_input) == 0){
 
       printf("Bien jou%c ! Vous avez trouv%c l'artiste !\n",130,130);
@@ -234,6 +236,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
 
     }
 
+    // On compare le nom de titre de la musique de la librairie avec celui données par l'utilisateur
     if(stricmp(current_song.title,title_input) == 0){
 
       printf("Bien jou%c ! Vous avez trouv%c le bon titre !\n",130,130);
@@ -261,7 +264,7 @@ void play_solo_mode(int16_t nb_max_songs, CONFIG * config_ini, PLAYER * solo_pla
 void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_players, PLAYER * list_players){
 
   srand(time(NULL));
-  int id_music;
+  int32_t id_music;
   int16_t index_music = -1;
   int16_t index_players = 0;
   int16_t temp = 0;
@@ -286,6 +289,7 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
   struct xml_node * root = xml_document_root(document);
   unsigned int nb_elements =  xml_node_children(root);
 
+  // Tant que l'utilisateur n'a pas répondu à toutes les questions
   while(nb_max_songs > 0){
 
 
@@ -320,6 +324,7 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
     if(title_input[strlen(title_input) - 1] == '\n')
       title_input[strlen(title_input) - 1] = '\0';
 
+    // On compare le nom de l'artiste de la librairie avec celui données par l'utilisateur
     if(stricmp(current_song.artist,artist_input) == 0){
 
       printf("Bien jou%c ! Vous avez trouv%c l'artiste !\n",130,130);
@@ -331,6 +336,7 @@ void play_multi_mode(int16_t nb_max_songs, CONFIG * config_ini, int16_t nb_playe
 
     }
 
+    // On compare le nom de titre de la musique de la librairie avec celui données par l'utilisateur
     if(stricmp(current_song.title,title_input) == 0){
 
       printf("Bien jou%c ! Vous avez trouv%c le bon titre !\n",130,130);
@@ -400,6 +406,7 @@ void stop_music(FMOD_SONG * system_song){
 
 }
 
+// Fonction de sauvegarde du score en mode solo
 int8_t save_score(PLAYER * solo_player){
 
   FILE * score_backup;
@@ -413,6 +420,7 @@ int8_t save_score(PLAYER * solo_player){
 
 }
 
+// Fonction d'affichage des scores en mode multi
 void display_multi_score(int16_t nb_players, PLAYER * list_players){
 
   int8_t winner;
@@ -435,6 +443,7 @@ void display_multi_score(int16_t nb_players, PLAYER * list_players){
 
 }
 
+// Fonction d'affichage des 10 meilleurs joueurs (mode solo)
 int8_t display_score(){
 
   FILE * score_list;
@@ -463,6 +472,7 @@ int8_t display_score(){
    players[i].score = score;
   }
 
+  // Tri du tableau players en fonction du score des joueurs (tri décroissant)
   for(int16_t j = 0; j < size_file; j++) {
     for(int16_t k = j; k < size_file; k++) {
 

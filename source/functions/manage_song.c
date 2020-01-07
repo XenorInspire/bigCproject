@@ -252,13 +252,10 @@ char * file_content(const char * file_name, int line_size){
   FILE * fp = NULL;
 	fp = fopen(file_name,"r");
 
-	while (fgets(buffer,line_size,fp) != NULL) {
-
+	while (fgets(buffer,line_size,fp) != NULL)
 		strcat(pointer_content,buffer);
-	}
 
 	fclose(fp);
-
   return pointer_content;
 }
 
@@ -269,6 +266,7 @@ int8_t delete_music(const char * file_name, uint16_t id){
   int32_t i = 0;
   int16_t j = 0;
 
+  // On calcule le nombre de chiffres dans le nombre
   do {
       j++;
   }
@@ -459,12 +457,12 @@ void array_sort(unsigned int array[],unsigned int array_size){
 }
 
 //Recherche des donnes de la musique ID
-void find_song(SONG * song, struct xml_document * document, int id_song){
-  unsigned int counter = 0;
-  int current_id = 0;
+void find_song(SONG * song, struct xml_document * document, int32_t id_song){
+  uint32_t counter = 0;
+  int32_t current_id = 0;
 
   struct xml_node * root = xml_document_root(document);
-  unsigned int children =  xml_node_children(root);
+  uint32_t children =  xml_node_children(root);
 
   do {
     //Song node

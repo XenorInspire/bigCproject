@@ -42,6 +42,7 @@ void main_settings(CONFIG * config_ini){
 
 }
 
+// Fonction de modification de la valeur du nombre de questions en fonction du mode de jeu
 void m_nb_questions(CONFIG * config_ini){
 
   printf("Mode Multijoueur :\n\nEasy : %hd\nMedium : %hd\nHard : %hd\n\n",config_ini->easy_level_multi_mode,config_ini->medium_level_multi_mode,config_ini->hard_level_multi_mode);
@@ -59,6 +60,7 @@ void m_nb_questions(CONFIG * config_ini){
   fflush(stdin);
   scanf("%c",&choice);
 
+  // Si l'utilisateur séléctionne un mode de jeu
   if(choice != '0'){
 
     printf("1 : Easy Mode\n");
@@ -73,7 +75,6 @@ void m_nb_questions(CONFIG * config_ini){
       printf("Mode Mutlijoueur : \nSaisissez la nouvelle valeur \n");
       fflush(stdin);
       scanf("%hd",&value);
-
 
       if(second_choice == '1'){
 
@@ -189,6 +190,7 @@ void m_directory_songs(CONFIG * config_ini){
   strcpy(temp,config_ini->songs_directory);
   strcpy(config_ini->songs_directory, new_songs_directory);
 
+  // Si la création du config.ini s'est mal passé
   if((generate_config_ini(config_ini, GEN_SONGS)) != 0){
 
     printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");
@@ -200,7 +202,6 @@ void m_directory_songs(CONFIG * config_ini){
     position = strrchr(temp_command,92);
 
     strcat(strncpy(command,temp_command,strlen(temp_command) - strlen(position)),"'");
-    printf("|%s|\n",command);
     system(command);
 
   }
@@ -222,6 +223,7 @@ void m_volume(CONFIG * config_ini){
   temp = config_ini->volume;
   config_ini->volume = new_volume;
 
+  // Si la création du config.ini s'est mal passé
   if((generate_config_ini(config_ini, GEN_VOL)) != 0){
 
     printf("Impossible de modifier la valeur, celle-ci n'est pas correcte \n");

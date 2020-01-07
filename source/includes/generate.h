@@ -11,4 +11,4 @@
 
 // Fonction qui génère le fichier config.ini
 
-int8_t generate_config_ini(CONFIG *, int8_t);
+int8_t generate_config_ini(CONFIG * config_ini, int8_t mode);

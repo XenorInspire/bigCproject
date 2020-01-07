@@ -28,6 +28,7 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
     check_memory(songs_directory);
     check_memory(fonts_directory);
 
+  // Vérifie le mode de génération
   if(mode == DEFAULT_GEN){
 
     easy_level_multi_mode = 10;
@@ -122,6 +123,7 @@ int8_t generate_config_ini(CONFIG * config_ini, int8_t mode){
   sprintf(temp, "Directory = '%s'", fonts_directory);
   strcpy(content[15],temp);
 
+ // Impression dans le fichier
   for(int8_t j = 0; j < NB_CONFIG_LINES; j++)
     fprintf(config, "%s \n", content[j]);
 

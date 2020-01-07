@@ -50,6 +50,7 @@ int8_t init(CONFIG * config_ini){
   buffer = malloc(SIZE_LINE * sizeof(char));
   check_memory(buffer);
 
+  // On parcours le fichier config.ini
   while(fgets(buffer, SIZE_LINE - 1, config) != NULL){
 
     if((strstr(buffer, "Multiplayer mode")) != NULL){
@@ -98,6 +99,7 @@ int8_t init(CONFIG * config_ini){
 
   fclose(config);
 
+  // Vérification de la cohérence des données
   if((verify_values(config_ini)) != 0)
     return -1;
 
