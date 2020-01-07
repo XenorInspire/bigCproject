@@ -329,7 +329,13 @@ int8_t delete_music(const char * file_name, uint16_t id){
   if(create_xml(file_name,XML_MODIFIED,content) != 0)
     return -1;
 
+  for(i = 0; i < number_of_lines; i++)
+    free(content[i]);
+
   fclose(library);
+  free(id_string);
+  free(content);
+  free(buffer);
   return 0;
 
 }
