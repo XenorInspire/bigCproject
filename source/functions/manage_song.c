@@ -63,7 +63,7 @@ int8_t delete_file(const char * source_file){
 }
 
 //Donne la taille du fichier
-long int file_size(const char * path){
+int32_t file_size(const char * path){
   if (does_file_exist(path))
     return -1;
 
@@ -240,7 +240,7 @@ int8_t create_xml(const char * file_name, int8_t mode, char ** content){
 }
 
 //Retourne le pointeur du contenu du fichier dans un buffer
-char * file_content(const char * file_name, int line_size){
+char * file_content(const char * file_name, int32_t line_size){
 
   char * pointer_content = NULL;
   pointer_content = malloc(file_size(file_name));
@@ -366,7 +366,7 @@ void verify_xml(const char * file_name){
 //Obtenir le dernier id song du fichier xml
 uint8_t * root_last_id(struct xml_document * document){
 
-  unsigned int children =  xml_node_children(xml_document_root(document));
+  uint32_t children =  xml_node_children(xml_document_root(document));
 
   struct xml_node * root = xml_document_root(document);
 
@@ -391,7 +391,7 @@ int8_t insert_song_data(const char *file_name, SONG * input_song){
   xml_file = fopen(file_name,"r+");
 
   struct xml_document * document = xml_open_document(xml_file);
-  int last_id = find_id_gap(document);
+  int32_t last_id = find_id_gap(document);
 
   xml_file = fopen(file_name,"r+");
   fseek(xml_file,-10,SEEK_END);
@@ -404,16 +404,16 @@ int8_t insert_song_data(const char *file_name, SONG * input_song){
 }
 
 //Essaie de chercher un id non utilise
-unsigned int find_id_gap(struct xml_document * document){
+uint32_t find_id_gap(struct xml_document * document){
 
-  unsigned int counter = 0;
-  unsigned int last_id;
-  unsigned int new_id = 0;
+  uint32_t counter = 0;
+  uint32_t last_id;
+  uint32_t new_id = 0;
 
   struct xml_node * root = xml_document_root(document);
-  unsigned int children =  xml_node_children(root);
+  uint32_t children =  xml_node_children(root);
 
-  unsigned int ids[children];
+  uint32_t ids[children];
 
   while (counter < children) {
     //Song node
@@ -445,10 +445,10 @@ unsigned int find_id_gap(struct xml_document * document){
 }
 
 //tri par ordre croissant les valeurs du tableau
-void array_sort(unsigned int array[],unsigned int array_size){
-  int tmp;
-  for(int i=0; i<array_size; i++){
-    for(int j=i; j<array_size; j++){
+void array_sort(uint32_t array[],uint32_t array_size){
+  int32_t tmp;
+  for(int32_t i=0; i<array_size; i++){
+    for(int32_t j=i; j<array_size; j++){
       if(array[j]<array[i]) {
         tmp = array[i];
         array[i] = array[j];
@@ -459,12 +459,12 @@ void array_sort(unsigned int array[],unsigned int array_size){
 }
 
 //Recherche des donnes de la musique ID
-void find_song(SONG * song, struct xml_document * document, int id_song){
-  unsigned int counter = 0;
-  int current_id = 0;
+void find_song(SONG * song, struct xml_document * document, int32_t id_song){
+  uint32_t counter = 0;
+  int32_t current_id = 0;
 
   struct xml_node * root = xml_document_root(document);
-  unsigned int children =  xml_node_children(root);
+  uint32_t children =  xml_node_children(root);
 
   do {
     //Song node
@@ -520,9 +520,9 @@ void find_song(SONG * song, struct xml_document * document, int id_song){
 //Verifier si les donnees de la musique ont deja ete inscrites
 uint8_t verify_song_insert(SONG * input_song, struct xml_document * document){
 
-  unsigned int counter = 0;
+  uint32_t counter = 0;
   struct xml_node * root = xml_document_root(document);
-  unsigned int children =  xml_node_children(root);
+  uint32_t children =  xml_node_children(root);
   SONG researched_song;
 
   while (counter < children) {
@@ -564,16 +564,17 @@ uint8_t verify_song_insert(SONG * input_song, struct xml_document * document){
 }
 
 //Retourne la liste des id
-unsigned int * id_list(struct xml_document * document){
+uint32_t * id_list(struct xml_document * document){
 
-  unsigned int counter = 0;
-  unsigned int last_id;
-  unsigned int new_id = 0;
+  uint32_t counter = 0;
+  uint32_t last_id;
+  uint32_t new_id = 0;
 
   struct xml_node * root = xml_document_root(document);
-  unsigned int children =  xml_node_children(root);
+  uint32_t children =  xml_node_children(root);
 
-  unsigned int* ids = malloc(sizeof(unsigned int) *children);
+  uint32_t* ids = malloc(sizeof(uint32_t) *children);
+  check_memory(ids);
 
   while (counter < children) {
     //Song node

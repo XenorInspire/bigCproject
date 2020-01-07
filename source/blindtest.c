@@ -1,3 +1,5 @@
+//Programme principal pour le jeu
+//Anthony Fargette - Nicolas Fouchard - 2020
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
