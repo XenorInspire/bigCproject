@@ -66,7 +66,7 @@ void append_item(GtkWidget *widget, gpointer * song_data) {
   struct xml_document * document = xml_open_document(xml_file);
 
   if (verify_song_insert(&song,document) != 0) {
-    printf("Le titre et l'artiste existent dans la bibliothèque\n");
+    printf("Le titre et l'artiste ou la musique existent actuellement dans la biblioth%cque\n",148);
   }else{
     insert_song_data("library.xml",&song);
     copy_file(file_path,"../music");
